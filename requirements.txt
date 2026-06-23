@@ -1,0 +1,7 @@
+# Frozen runtime dependencies for volume_scanner
+# 2.3+ requires Python 3.11; mk2 currently runs on Python 3.10.
+numpy==2.2.6
+opencv-python==4.13.0.92
+
+# SynexensSDK.dll is loaded directly by camera/synexens_camera.py from the
+# installed native SDK; it is not a pip dependency.
