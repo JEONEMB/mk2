@@ -62,8 +62,12 @@ class CalibrationConfig:
     # distances. Nearer boxes and foreground obstacles are rejected first,
     # while enough platform points remain after vertical walls are excluded.
     platform_farthest_percentile: float = 60.0
-    # Fill small obstacle/no-depth holes before deriving one rectangular ROI.
-    platform_roi_close_kernel_px: int = 41
+    # A platform candidate is one raw 8-connected inlier component.  Small
+    # holes may be bridged only inside that component while finding its
+    # rectangle; they never connect two candidate components.
+    platform_plane_candidate_count: int = 3
+    platform_roi_hole_close_px: int = 5
+    min_platform_roi_coverage: float = 0.90
     platform_max_tilt_deg: float = 25.0
     min_platform_component_pixels: int = 1_000
     min_platform_roi_area_ratio: float = 0.10

@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from collections import deque
 from typing import Iterable
+import warnings
 
 import cv2
 import numpy as np
@@ -71,7 +72,11 @@ def median_filter_depth(depth_mm: np.ndarray, kernel_size: int = 3) -> np.ndarra
         raise ValueError("median kernel_size must be odd")
     padded = np.pad(depth, kernel_size // 2, mode="edge")
     windows = np.lib.stride_tricks.sliding_window_view(padded, (kernel_size, kernel_size))
-    with np.errstate(all="ignore"):
+    # ``np.errstate`` does not suppress NumPy's Python-level "All-NaN slice"
+    # warning. Missing depth is an expected value in this pipeline, so retain
+    # it as NaN without printing a warning once per frame.
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", category=RuntimeWarning)
         return np.nanmedian(windows, axis=(-2, -1)).astype(np.float32)
 
 
@@ -82,7 +87,8 @@ def temporal_median(depth_frames: Iterable[np.ndarray]) -> np.ndarray:
     shape = frames[0].shape
     if any(frame.shape != shape for frame in frames):
         raise ValueError("all depth frames must have identical dimensions")
-    with np.errstate(all="ignore"):
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", category=RuntimeWarning)
         return np.nanmedian(np.stack(frames), axis=0).astype(np.float32)
 
 

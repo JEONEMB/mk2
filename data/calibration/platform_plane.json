@@ -6,23 +6,26 @@
   ],
   "resolution": "320x240",
   "plane_normal": [
-    0.13105777789020714,
-    0.13184113155544167,
-    -0.9825689669863699
+    -0.12751887929776362,
+    0.0158822850649682,
+    -0.9917089736630186
   ],
-  "plane_d": 718.8838066527626,
-  "camera_height_mm": 718.8838066527626,
+  "plane_d": 701.6434509210262,
+  "camera_height_mm": 701.6434509210262,
   "measurement_roi": [
-    98,
+    40,
     55,
-    206,
-    169
+    87,
+    144
   ],
-  "residual_std_mm": 2.2705667618740217,
-  "normal_alignment": 0.9825689669863699,
-  "roi_area_ratio": 0.45330729166666667,
-  "native_camera_height_mm": 589.8029209790199,
-  "applied_depth_scale": 1.1868371198265055,
-  "created_at": "2026-06-24T06:48:04.566881+00:00",
+  "residual_std_mm": 2.485129219256058,
+  "normal_alignment": 0.9917089736630186,
+  "roi_area_ratio": 0.163125,
+  "native_camera_height_mm": 498.4132124439584,
+  "applied_depth_scale": 1.4044571502580463,
+  "residual_p05_mm": -4.015827455374718,
+  "residual_p50_mm": 0.241562489418925,
+  "residual_p95_mm": 4.246339740715598,
+  "created_at": "2026-06-24T08:34:46.180583+00:00",
   "platform_mask_file": "platform_plane_mask.npy"
 }

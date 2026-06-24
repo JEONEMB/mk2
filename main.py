@@ -8,7 +8,7 @@ millimetre arrays and calibration models.
 from __future__ import annotations
 
 import argparse
-from dataclasses import asdict, replace
+from dataclasses import asdict, dataclass, replace
 import numpy as np
 
 from calibration.calibration_store import (
@@ -18,7 +18,7 @@ from calibration.calibration_store import (
     save_platform_model,
 )
 from calibration.depth_scale_calibrator import DepthScaleCalibrator, DepthScaleModel
-from calibration.platform_calibrator import PlatformCalibrator, PlatformModel
+from calibration.platform_calibrator import PlaneProposal, PlatformCalibrator, PlatformModel
 from camera.frame_types import DepthFrame
 from camera.synexens_camera import CameraError, SynexensCamera, SyntheticCameraBackend
 from config import CalibrationConfig, DepthConfig, MeasurementConfig, SDKConfig
@@ -69,7 +69,26 @@ def clean_frame(
     else:
         cloud = depth_to_pointcloud(cleaned_depth, frame.intrinsics)
     cleaned_frame = frame.with_depth(cleaned_depth, cloud)
+    raw_cloud = (frame.metadata or {}).get("raw_pointcloud_xyz")
+    if raw_cloud is not None:
+        metadata = dict(frame.metadata or {})
+        # Preserve the vendor's non-undistorted geometry as an A/B diagnostic.
+        # It is intentionally not rescaled onto the undistorted rays used for
+        # measurement, otherwise the comparison would hide distortion.
+        raw_geometry = np.asarray(raw_cloud, dtype=np.float32).copy()
+        raw_geometry[~np.isfinite(cleaned_depth)] = np.nan
+        metadata["raw_pointcloud_xyz"] = raw_geometry
+        cleaned_frame = replace(cleaned_frame, metadata=metadata)
     return cleaned_frame, cloud
+
+
+@dataclass(frozen=True)
+class PlatformCapture:
+    points: list[np.ndarray]
+    raw_points: list[np.ndarray] | None
+    resolution: str
+    preview_depth_mm: np.ndarray
+    proposal: PlaneProposal
 
 
 def collect_pointclouds(
@@ -77,17 +96,43 @@ def collect_pointclouds(
     count: int,
     preprocessor: DepthPreprocessor,
     scale_model: DepthScaleModel | None,
-) -> tuple[list[np.ndarray], str]:
+) -> tuple[list[np.ndarray], list[np.ndarray] | None, str, np.ndarray]:
     points: list[np.ndarray] = []
+    raw_points: list[np.ndarray] = []
+    raw_available = True
     resolution = ""
+    preview_depth = np.empty((0, 0), dtype=np.float32)
     while len(points) < count:
         frame = camera.read()
         if frame is None:
             continue
         cleaned, cloud = clean_frame(frame, preprocessor, scale_model)
         resolution = cleaned.resolution_name
+        preview_depth = cleaned.depth_mm
         points.append(cloud)
-    return points, resolution
+        raw_cloud = (cleaned.metadata or {}).get("raw_pointcloud_xyz")
+        if raw_cloud is None:
+            raw_available = False
+        else:
+            raw_points.append(np.asarray(raw_cloud, dtype=np.float32))
+    return points, raw_points if raw_available else None, resolution, preview_depth
+
+
+def capture_platform_proposal(
+    camera: SynexensCamera,
+    calibrator: PlatformCalibrator,
+    config: CalibrationConfig,
+    preprocessor: DepthPreprocessor,
+) -> PlatformCapture:
+    """Capture one empty-platform frame set and derive its unsaved proposal."""
+
+    preprocessor.reset()
+    points, raw_points, resolution, preview_depth = collect_pointclouds(
+        camera, config.frame_count, preprocessor, None
+    )
+    return PlatformCapture(
+        points, raw_points, resolution, preview_depth, calibrator.propose_platform(points, raw_points)
+    )
 
 
 def make_estimator(config: MeasurementConfig) -> BoxVolumeEstimator:
@@ -122,6 +167,34 @@ def candidate_summary(candidates: tuple[object, ...]) -> list[dict[str, object]]
     ]
 
 
+def plane_quality_summary(quality: object | None) -> dict[str, float] | None:
+    if quality is None:
+        return None
+    return {
+        "p05_mm": round(float(quality.p05_mm), 2),
+        "p50_mm": round(float(quality.p50_mm), 2),
+        "p95_mm": round(float(quality.p95_mm), 2),
+        "std_mm": round(float(quality.std_mm), 2),
+    }
+
+
+def proposal_summary(proposal: PlaneProposal) -> dict[str, object]:
+    """Keep preview diagnostics numeric and explicit before any state is saved."""
+
+    return {
+        "accepted": proposal.accepted,
+        "outer_roi": proposal.outer_roi,
+        "measurement_roi": proposal.measurement_roi,
+        "component_area_px": proposal.component_area_px,
+        "support_ratio": round(proposal.support_ratio, 4),
+        "roi_coverage": round(proposal.roi_coverage, 4) if proposal.roi_coverage is not None else None,
+        "normal_alignment": round(proposal.normal_alignment, 4),
+        "undistorted_quality_mm": plane_quality_summary(proposal.quality),
+        "raw_quality_mm": plane_quality_summary(proposal.raw_quality),
+        "failure_reason": proposal.failure_reason,
+    }
+
+
 def print_detection(camera: SynexensCamera, estimator: BoxVolumeEstimator, preprocessor: DepthPreprocessor,
                     scale_model: DepthScaleModel | None, platform_model: PlatformModel | None) -> int:
     if platform_model is None:
@@ -148,14 +221,17 @@ def calibrate_platform(
     config: CalibrationConfig,
     preprocessor: DepthPreprocessor,
     reference_height_mm: float | None = None,
+    capture: PlatformCapture | None = None,
 ) -> tuple[PlatformModel, DepthScaleModel | None]:
-    """Calibrate an empty platform, optionally tying its metric scale to a ruler."""
+    """Persist only a confirmed proposal produced from this exact frame set."""
 
-    preprocessor.reset()
-    # Always start from native/raw SDK geometry. A new measured reference then
-    # replaces any previous one-point scale rather than compounding it.
-    points, resolution = collect_pointclouds(camera, config.frame_count, preprocessor, None)
-    raw_model = calibrator.calibrate(points, resolution=resolution)
+    captured = capture or capture_platform_proposal(camera, calibrator, config, preprocessor)
+    proposal = captured.proposal
+    if not proposal.accepted or proposal.outer_roi is None:
+        raise ValueError(f"platform proposal rejected: {proposal.failure_reason or 'no safe measurement ROI'}")
+    # The proposal was created from native SDK geometry. A ruler reference
+    # replaces its scale rather than compounding a prior calibration.
+    raw_model = calibrator.calibrate(captured.points, resolution=captured.resolution, manual_roi=proposal.outer_roi)
     scale_model: DepthScaleModel | None = None
     model = raw_model
     if reference_height_mm is not None:
@@ -173,8 +249,10 @@ def calibrate_platform(
             sample_count=1,
             rms_error_mm=abs(reference_height_mm - raw_model.camera_height_mm),
         )
-        scaled_points = [point_grid * correction for point_grid in points]
-        model = calibrator.calibrate(scaled_points, resolution=resolution)
+        scaled_points = [point_grid * correction for point_grid in captured.points]
+        model = calibrator.calibrate(
+            scaled_points, resolution=captured.resolution, manual_roi=proposal.outer_roi
+        )
         model = replace(
             model,
             native_camera_height_mm=raw_model.camera_height_mm,
@@ -334,6 +412,7 @@ def interactive_loop(
     viewer = Viewer()
     result: VolumeResult | None = None
     detection_preview = None
+    plane_preview = None
     height_view_active = False
     try:
         while True:
@@ -351,6 +430,7 @@ def interactive_loop(
                 detection=detection_preview,
                 platform_model=platform_model,
                 diagnostics=preprocessor.diagnostics,
+                plane_preview=plane_preview,
                 height_above_platform_mm=relative_height_mm,
                 height_view_active=height_view_active,
                 dynamic_baseline_delta_mm=(
@@ -404,19 +484,44 @@ def interactive_loop(
                             "candidates": candidate_summary(detection.candidates),
                         }
                     )
+            elif key == "p":
+                try:
+                    print("Capturing empty-platform frames for plane preview...")
+                    capture = capture_platform_proposal(camera, calibrator, calibration_config, preprocessor)
+                    plane_preview = capture.proposal
+                    print(proposal_summary(plane_preview))
+                except ValueError as exc:
+                    plane_preview = None
+                    print(f"Plane preview failed: {exc}")
             elif key == "c":
                 try:
+                    print("Capturing empty-platform frames for verified ROI proposal...")
+                    capture = capture_platform_proposal(camera, calibrator, calibration_config, preprocessor)
+                    plane_preview = capture.proposal
+                    print(proposal_summary(plane_preview))
+                    if not viewer.confirm_platform_proposal(capture.preview_depth_mm, plane_preview):
+                        if not plane_preview.accepted:
+                            print(f"Platform proposal rejected: {plane_preview.failure_reason}")
+                        else:
+                            print("Platform calibration cancelled; existing calibration was kept.")
+                        continue
                     reference_height_mm = prompt_platform_height_mm()
                     if reference_height_mm is None:
                         print("Platform calibration cancelled; existing calibration was kept.")
                         continue
-                    print("Calibrating platform: keep the platform empty...")
+                    print(f"Calibrating verified platform ROI {plane_preview.measurement_roi}: keep it empty...")
                     platform_model, new_scale_model = calibrate_platform(
-                        camera, calibrator, calibration_config, preprocessor, reference_height_mm
+                        camera,
+                        calibrator,
+                        calibration_config,
+                        preprocessor,
+                        reference_height_mm,
+                        capture,
                     )
                     scale_model = new_scale_model
                     result = None
                     detection_preview = None
+                    plane_preview = None
                     height_view_active = False
                     print(
                         f"Platform ROI: {platform_model.measurement_roi}; "
@@ -479,13 +584,21 @@ def main() -> int:
         # start uncalibrated so the operator explicitly captures today's empty platform.
         platform_model = load_platform_model()
         if args.calibrate:
-            platform_model, calibrated_scale_model = calibrate_platform(
-                camera,
-                calibrator,
-                calibration_config,
-                preprocessor,
-                args.platform_height_mm,
-            )
+            print("Capturing empty-platform frames for verified ROI proposal...")
+            capture = capture_platform_proposal(camera, calibrator, calibration_config, preprocessor)
+            print(proposal_summary(capture.proposal))
+            try:
+                platform_model, calibrated_scale_model = calibrate_platform(
+                    camera,
+                    calibrator,
+                    calibration_config,
+                    preprocessor,
+                    args.platform_height_mm,
+                    capture,
+                )
+            except ValueError as exc:
+                print(f"Platform calibration rejected: {exc}")
+                return 2
             if calibrated_scale_model is not None:
                 scale_model = calibrated_scale_model
             if not args.measure and not args.detect:

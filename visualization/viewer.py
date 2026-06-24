@@ -62,6 +62,54 @@ class Viewer:
             self._ir_window_created = False
         return self.ir_visible
 
+    def draw_plane_preview(self, image: np.ndarray, preview: object) -> None:
+        """Overlay exact consensus inliers and only a verified proposal ROI."""
+
+        mask = np.asarray(getattr(preview, "support_mask"), dtype=bool)
+        if mask.shape != image.shape[:2]:
+            return
+        # Show the point-level plane mask, not a filled inferred rectangle.
+        image[mask] = (0.45 * image[mask] + 0.55 * np.array([40, 220, 40])).astype(np.uint8)
+        outer_roi = getattr(preview, "outer_roi", None)
+        if bool(getattr(preview, "accepted", False)) and outer_roi is not None:
+            x, y, width, height = outer_roi
+            cv2.rectangle(image, (x, y), (x + width, y + height), (0, 255, 255), 1)
+        support = float(getattr(preview, "support_ratio", 0.0))
+        alignment = float(getattr(preview, "normal_alignment", 0.0))
+        quality = getattr(preview, "quality", None)
+        raw_quality = getattr(preview, "raw_quality", None)
+        if quality is None:
+            quality_line = "  no verified ROI"
+        elif raw_quality is None:
+            quality_line = f"  undist std {quality.std_mm:.1f} mm"
+        else:
+            quality_line = f"  undist/raw std {quality.std_mm:.1f}/{raw_quality.std_mm:.1f} mm"
+        self._put_lines(
+            image,
+            [f"Plane proposal: support {support:.1%}, normal {alignment:.3f}{quality_line}"],
+            start_y=self.style.header_start_y_px + 3 * self.style.line_height_px,
+        )
+
+    def confirm_platform_proposal(self, depth_mm: np.ndarray, proposal: object) -> bool:
+        """Show an exact proposal and wait for explicit save/cancel confirmation."""
+
+        image = self._depth_image(depth_mm)
+        self.draw_plane_preview(image, proposal)
+        accepted = bool(getattr(proposal, "accepted", False))
+        if accepted:
+            lines = [
+                "Yellow ROI is verified inside the green plane mask",
+                "Enter/Space: save this ROI   c/Esc: cancel",
+            ]
+        else:
+            reason = str(getattr(proposal, "failure_reason", "no safe platform ROI"))
+            lines = ["No ROI will be saved", reason[:100], "Press any key to return"]
+        self._put_lines(image, lines, start_y=16)
+        self._create_depth_window()
+        cv2.imshow(self.depth_window, image)
+        key = cv2.waitKey(0) & 0xFF
+        return accepted and key in (13, 32)
+
     def show_frames(
         self,
         frame: "DepthFrame",
@@ -71,6 +119,7 @@ class Viewer:
         detection: "BoxDetection | None" = None,
         platform_model: object | None = None,
         diagnostics: dict[str, float] | None = None,
+        plane_preview: object | None = None,
         height_above_platform_mm: np.ndarray | None = None,
         height_view_active: bool = False,
         dynamic_baseline_delta_mm: float | None = None,
@@ -84,13 +133,13 @@ class Viewer:
             lines = [
                 f"Height above platform: {HEIGHT_VIEW_MIN_MM:.0f}..{HEIGHT_VIEW_MAX_MM:.0f} mm",
                 "0mm=cold  +70mm=warm  h: depth view",
-                "i: IR  r: resolution  c: calibrate  b: detect  d: measure  q: quit",
+                "p: plane preview  i: IR  r: resolution  c: calibrate  b: detect  d: measure  q: quit",
             ]
         else:
             depth_image = self._depth_image(depth)
             lines = [
                 f"Depth: {depth.shape[1]} x {depth.shape[0]}",
-                "h: height map  i: IR  r: resolution  c: calibrate  b: detect  d: measure  q: quit",
+                "h: height map  p: plane preview  i: IR  r: resolution  c: calibrate  b: detect  d: measure  q: quit",
             ]
         if diagnostics is not None:
             lines.append(
@@ -106,6 +155,8 @@ class Viewer:
                 platform_model.measurement_roi,
                 getattr(platform_model, "camera_height_mm", None),
             )
+        if plane_preview is not None:
+            self.draw_plane_preview(depth_image, plane_preview)
         if result is not None:
             if result.candidate_mask is not None:
                 self.draw_candidate_mask(depth_image, result.candidate_mask)
@@ -144,6 +195,7 @@ class Viewer:
         detection: "BoxDetection | None" = None,
         platform_model: object | None = None,
         diagnostics: dict[str, float] | None = None,
+        plane_preview: object | None = None,
         height_above_platform_mm: np.ndarray | None = None,
         height_view_active: bool = False,
         dynamic_baseline_delta_mm: float | None = None,
@@ -158,6 +210,7 @@ class Viewer:
             detection=detection,
             platform_model=platform_model,
             diagnostics=diagnostics,
+            plane_preview=plane_preview,
             height_above_platform_mm=height_above_platform_mm,
             height_view_active=height_view_active,
             dynamic_baseline_delta_mm=dynamic_baseline_delta_mm,

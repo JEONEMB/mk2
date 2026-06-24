@@ -81,6 +81,36 @@ class PlatformModel:
         )
 
 
+@dataclass(frozen=True)
+class PlaneQuality:
+    p05_mm: float
+    p50_mm: float
+    p95_mm: float
+    std_mm: float
+
+
+@dataclass(frozen=True)
+class PlaneProposal:
+    """A displayable, not-yet-persisted platform candidate from one frame set."""
+
+    support_mask: np.ndarray = field(repr=False, compare=False)
+    outer_roi: tuple[int, int, int, int] | None
+    measurement_roi: tuple[int, int, int, int] | None
+    plane_normal: np.ndarray | None
+    plane_d: float | None
+    normal_alignment: float
+    support_ratio: float
+    component_area_px: int
+    roi_coverage: float | None
+    quality: PlaneQuality | None
+    raw_quality: PlaneQuality | None
+    failure_reason: str | None = None
+
+    @property
+    def accepted(self) -> bool:
+        return self.failure_reason is None and self.measurement_roi is not None and self.quality is not None
+
+
 class PlatformCalibrator:
     """Fits the platform from cleaned, calibrated point-cloud grids only."""
 
@@ -117,6 +147,282 @@ class PlatformCalibrator:
     ) -> PlatformModel:
         return self.build_platform_model(pointcloud_frames, resolution=resolution, manual_roi=manual_roi)
 
+    def propose_platform(
+        self,
+        pointcloud_frames: Sequence[np.ndarray],
+        raw_pointcloud_frames: Sequence[np.ndarray] | None = None,
+    ) -> PlaneProposal:
+        """Find one verifiable horizontal-plane ROI from an empty-frame set.
+
+        Components are labelled on the raw consensus inlier mask.  No
+        morphological closing is allowed to join components, so a proposal can
+        never span two visually separate surfaces just because they are close
+        in image space.
+        """
+
+        first, frame_error = self._validate_proposal_frames(pointcloud_frames, raw_pointcloud_frames)
+        if frame_error is not None:
+            return self._failed_proposal(first.shape[:2] if first is not None else (0, 0), frame_error)
+        assert first is not None
+        height, width = first.shape[:2]
+        valid_ratio = float(
+            np.mean([np.isfinite(np.asarray(frame)).all(axis=2).mean() for frame in pointcloud_frames])
+        )
+        if valid_ratio < self.config.min_calibration_valid_depth_ratio:
+            return self._failed_proposal(
+                (height, width), f"valid depth is only {valid_ratio:.1%}; expected a usable empty-platform image"
+            )
+
+        per_frame = max(1_000, self.config.max_sample_points // len(pointcloud_frames))
+        samples = [sample_points(valid_points(frame), per_frame) for frame in pointcloud_frames]
+        remaining = np.concatenate(samples) if samples else np.empty((0, 3), dtype=np.float64)
+        minimum_alignment = float(np.cos(np.deg2rad(self.config.platform_max_tilt_deg)))
+        proposals: list[PlaneProposal] = []
+        best_failure: PlaneProposal | None = None
+
+        for _ in range(max(1, int(self.config.platform_plane_candidate_count))):
+            if len(remaining) < self.config.min_inliers:
+                break
+            try:
+                seed_fit = fit_plane_ransac(
+                    remaining,
+                    iterations=self.config.ransac_iterations,
+                    threshold_mm=self.config.ransac_threshold_mm,
+                    min_inliers=self.config.min_inliers,
+                    expected_normal=np.array([0.0, 0.0, -1.0]),
+                    min_normal_alignment=minimum_alignment,
+                )
+            except ValueError:
+                break
+            support = self._stable_plane_mask(pointcloud_frames, seed_fit.normal, seed_fit.d)
+            components = self._raw_plane_components(support)
+            for component in components:
+                refined = self._refine_component_plane(pointcloud_frames, component, seed_fit)
+                if refined is None:
+                    continue
+                fit, refined_component = refined
+                proposal = self._proposal_from_component(
+                    pointcloud_frames, raw_pointcloud_frames, refined_component, fit
+                )
+                if proposal.accepted:
+                    proposals.append(proposal)
+                elif best_failure is None or proposal.component_area_px > best_failure.component_area_px:
+                    best_failure = proposal
+            residuals = np.abs(point_to_plane_signed_distance(remaining, seed_fit.normal, seed_fit.d))
+            remaining = remaining[residuals > self.config.full_frame_plane_threshold_mm]
+
+        if proposals:
+            return max(proposals, key=lambda proposal: proposal.component_area_px)
+        if best_failure is not None:
+            return best_failure
+        return self._failed_proposal(
+            (height, width), "no contiguous horizontal plane component was found in the frame consensus"
+        )
+
+    @staticmethod
+    def _failed_proposal(shape: tuple[int, int], reason: str) -> PlaneProposal:
+        height, width = shape
+        return PlaneProposal(
+            support_mask=np.zeros((height, width), dtype=bool),
+            outer_roi=None,
+            measurement_roi=None,
+            plane_normal=None,
+            plane_d=None,
+            normal_alignment=0.0,
+            support_ratio=0.0,
+            component_area_px=0,
+            roi_coverage=None,
+            quality=None,
+            raw_quality=None,
+            failure_reason=reason,
+        )
+
+    @staticmethod
+    def _validate_proposal_frames(
+        pointcloud_frames: Sequence[np.ndarray], raw_pointcloud_frames: Sequence[np.ndarray] | None
+    ) -> tuple[np.ndarray | None, str | None]:
+        if not pointcloud_frames:
+            return None, "no frames were captured for platform preview"
+        first = np.asarray(pointcloud_frames[0])
+        if first.ndim != 3 or first.shape[2] != 3:
+            return None, "platform preview frames must be H x W x 3 point-cloud grids"
+        if any(np.asarray(frame).shape != first.shape for frame in pointcloud_frames):
+            return first, "platform preview frames have mixed resolutions"
+        if raw_pointcloud_frames is not None and (
+            len(raw_pointcloud_frames) != len(pointcloud_frames)
+            or any(np.asarray(frame).shape != first.shape for frame in raw_pointcloud_frames)
+        ):
+            return first, "raw and undistorted preview frames do not match"
+        return first, None
+
+    def _raw_plane_components(self, mask: np.ndarray) -> list[np.ndarray]:
+        """Return raw 8-connected components without morphology-based merging."""
+
+        labels_count, labels, stats, _ = cv2.connectedComponentsWithStats(
+            np.asarray(mask, dtype=np.uint8), connectivity=8
+        )
+        components: list[np.ndarray] = []
+        for label in range(1, labels_count):
+            if int(stats[label, cv2.CC_STAT_AREA]) < self.config.min_platform_component_pixels:
+                continue
+            components.append(labels == label)
+        return sorted(components, key=lambda component: int(component.sum()), reverse=True)
+
+    def _refine_component_plane(
+        self, pointcloud_frames: Sequence[np.ndarray], component: np.ndarray, seed_fit: PlaneFit
+    ) -> tuple[PlaneFit, np.ndarray] | None:
+        support = self._collect_masked_plane_inliers(
+            pointcloud_frames, component, seed_fit.normal, seed_fit.d
+        )
+        if len(support) < self.config.min_inliers:
+            return None
+        fit = fit_plane_svd(sample_points(support, self.config.max_sample_points))
+        refined_support = self._stable_plane_mask(pointcloud_frames, fit.normal, fit.d)
+        components = self._raw_plane_components(refined_support)
+        if not components:
+            return None
+        # Preserve the spatial surface that seeded this fit, not merely the
+        # globally largest surface after refitting.
+        refined = max(components, key=lambda candidate: int((candidate & component).sum()))
+        if not np.any(refined & component):
+            return None
+        return fit, refined
+
+    def _proposal_from_component(
+        self,
+        pointcloud_frames: Sequence[np.ndarray],
+        raw_pointcloud_frames: Sequence[np.ndarray] | None,
+        component: np.ndarray,
+        fit: PlaneFit,
+    ) -> PlaneProposal:
+        area = int(component.sum())
+        alignment = abs(float(np.dot(fit.normal, np.array([0.0, 0.0, -1.0]))))
+        support_ratio = float(component.mean())
+        try:
+            outer_roi = self._component_outer_roi(component)
+            measurement_roi = self._inset_measurement_roi(outer_roi)
+        except ValueError as exc:
+            return PlaneProposal(
+                component, None, None, fit.normal, fit.d, alignment, support_ratio, area, None, None, None, str(exc)
+            )
+        coverage = self._roi_coverage(component, outer_roi)
+        if coverage < self.config.min_platform_roi_coverage:
+            return PlaneProposal(
+                component,
+                outer_roi,
+                None,
+                fit.normal,
+                fit.d,
+                alignment,
+                support_ratio,
+                area,
+                coverage,
+                None,
+                None,
+                f"proposed ROI has only {coverage:.1%} plane coverage; expected at least "
+                f"{self.config.min_platform_roi_coverage:.0%}",
+            )
+        quality = self._quality_for_roi(pointcloud_frames, measurement_roi, fit.normal, fit.d)
+        raw_quality = self._raw_quality_for_roi(raw_pointcloud_frames, measurement_roi, alignment)
+        if not self._quality_is_acceptable(quality):
+            return PlaneProposal(
+                component,
+                outer_roi,
+                measurement_roi,
+                fit.normal,
+                fit.d,
+                alignment,
+                support_ratio,
+                area,
+                coverage,
+                quality,
+                raw_quality,
+                self._quality_failure_reason(quality),
+            )
+        return PlaneProposal(
+            component,
+            outer_roi,
+            measurement_roi,
+            fit.normal,
+            fit.d,
+            alignment,
+            support_ratio,
+            area,
+            coverage,
+            quality,
+            raw_quality,
+        )
+
+    def _component_outer_roi(self, component: np.ndarray) -> tuple[int, int, int, int]:
+        """Find a rectangle within one component, allowing only tiny internal holes."""
+
+        close_size = max(1, int(self.config.platform_roi_hole_close_px))
+        close_size = close_size if close_size % 2 else close_size + 1
+        if close_size > 1:
+            radius = close_size // 2
+            padded = cv2.copyMakeBorder(
+                component.astype(np.uint8), radius, radius, radius, radius, cv2.BORDER_CONSTANT, value=0
+            )
+            closed = cv2.morphologyEx(
+                padded, cv2.MORPH_CLOSE, np.ones((close_size, close_size), np.uint8)
+            )[radius:-radius, radius:-radius].astype(bool)
+        else:
+            closed = component
+        return self._largest_safe_rectangle(closed)
+
+    @staticmethod
+    def _roi_coverage(mask: np.ndarray, roi: tuple[int, int, int, int]) -> float:
+        x, y, width, height = roi
+        return float(np.asarray(mask, dtype=bool)[y : y + height, x : x + width].mean())
+
+    def _quality_for_roi(
+        self, pointcloud_frames: Sequence[np.ndarray], roi: tuple[int, int, int, int], normal: np.ndarray, d: float
+    ) -> PlaneQuality:
+        p05, p50, p95, std = self._roi_residual_statistics(pointcloud_frames, roi, normal, d)
+        return PlaneQuality(p05, p50, p95, std)
+
+    def _raw_quality_for_roi(
+        self,
+        raw_pointcloud_frames: Sequence[np.ndarray] | None,
+        roi: tuple[int, int, int, int],
+        minimum_alignment: float,
+    ) -> PlaneQuality | None:
+        if raw_pointcloud_frames is None:
+            return None
+        per_frame = max(1_000, self.config.max_sample_points // len(raw_pointcloud_frames))
+        samples = [sample_points(extract_roi_points(frame, roi), per_frame) for frame in raw_pointcloud_frames]
+        points = np.concatenate(samples) if samples else np.empty((0, 3), dtype=np.float64)
+        if len(points) < self.config.min_inliers:
+            return None
+        try:
+            fit = fit_plane_ransac(
+                points,
+                iterations=self.config.ransac_iterations,
+                threshold_mm=self.config.ransac_threshold_mm,
+                min_inliers=self.config.min_inliers,
+                expected_normal=np.array([0.0, 0.0, -1.0]),
+                min_normal_alignment=minimum_alignment,
+            )
+        except ValueError:
+            # Raw geometry can be too distorted for a strict RANSAC plane.
+            # It is still valuable as a comparison diagnostic, so report the
+            # best least-squares plane rather than hiding the degradation.
+            fit = fit_plane_svd(points)
+        return self._quality_for_roi(raw_pointcloud_frames, roi, fit.normal, fit.d)
+
+    def _quality_is_acceptable(self, quality: PlaneQuality) -> bool:
+        return (
+            quality.std_mm <= self.config.max_calibration_residual_std_mm
+            and max(abs(quality.p05_mm), abs(quality.p95_mm)) <= self.config.max_calibration_residual_abs_p95_mm
+        )
+
+    def _quality_failure_reason(self, quality: PlaneQuality) -> str:
+        return (
+            "final plane residual exceeds calibration limits: "
+            f"p05={quality.p05_mm:.1f} mm, p50={quality.p50_mm:.1f} mm, "
+            f"p95={quality.p95_mm:.1f} mm, std={quality.std_mm:.1f} mm"
+        )
+
     def build_platform_model(
         self,
         pointcloud_frames: Sequence[np.ndarray],
@@ -145,29 +451,33 @@ class PlatformCalibrator:
             raise ValueError(
                 f"valid depth is only {mean_valid_ratio:.1%}; adjust camera/IR exposure and aim downward at the platform"
             )
-        if not any(len(candidate) for candidate in points):
-            raise ValueError("no far-depth platform candidates were found")
-        merged = sample_points(np.concatenate(points), self.config.max_sample_points)
         minimum_alignment = float(np.cos(np.deg2rad(self.config.platform_max_tilt_deg)))
-        seed_fit = fit_plane_ransac(
-            merged,
-            iterations=self.config.ransac_iterations,
-            threshold_mm=self.config.ransac_threshold_mm,
-            min_inliers=self.config.min_inliers,
-            expected_normal=np.array([0.0, 0.0, -1.0]),
-            min_normal_alignment=minimum_alignment,
-        )
         if manual_roi is None:
+            if not any(len(candidate) for candidate in points):
+                raise ValueError("no far-depth platform candidates were found")
+            merged = sample_points(np.concatenate(points), self.config.max_sample_points)
+            seed_fit = fit_plane_ransac(
+                merged,
+                iterations=self.config.ransac_iterations,
+                threshold_mm=self.config.ransac_threshold_mm,
+                min_inliers=self.config.min_inliers,
+                expected_normal=np.array([0.0, 0.0, -1.0]),
+                min_normal_alignment=minimum_alignment,
+            )
             # The far-point RANSAC is only a seed.  Refit normal and offset
             # using the stable full-frame platform support before deriving ROI.
             fit, platform_mask = self._refine_full_platform_plane(pointcloud_frames, seed_fit)
             roi = self._inset_measurement_roi(self._largest_safe_rectangle(platform_mask))
         else:
-            fit = seed_fit
-            roi = manual_roi
+            outer_roi = self._validate_manual_roi(manual_roi, width, height)
+            roi = self._inset_measurement_roi(outer_roi)
+            fit = self._fit_manual_platform_plane(pointcloud_frames, roi, minimum_alignment)
             platform_mask = np.zeros((height, width), dtype=bool)
-            x, y, roi_width, roi_height = roi
-            platform_mask[y : y + roi_height, x : x + roi_width] = True
+            stable_mask = self._stable_plane_mask(pointcloud_frames, fit.normal, fit.d)
+            x, y, roi_width, roi_height = outer_roi
+            platform_mask[y : y + roi_height, x : x + roi_width] = stable_mask[
+                y : y + roi_height, x : x + roi_width
+            ]
         roi_area_ratio = (roi[2] * roi[3]) / float(width * height)
         if roi_area_ratio < self.config.min_platform_roi_area_ratio:
             raise ValueError(
@@ -206,6 +516,42 @@ class PlatformCalibrator:
             residual_p05_mm=residual_p05,
             residual_p50_mm=residual_p50,
             residual_p95_mm=residual_p95,
+        )
+
+    @staticmethod
+    def _validate_manual_roi(
+        roi: tuple[int, int, int, int], frame_width: int, frame_height: int
+    ) -> tuple[int, int, int, int]:
+        x, y, width, height = (int(value) for value in roi)
+        if width <= 0 or height <= 0:
+            raise ValueError("selected platform ROI must have positive width and height")
+        if x < 0 or y < 0 or x + width > frame_width or y + height > frame_height:
+            raise ValueError("selected platform ROI is outside the current depth image")
+        return x, y, width, height
+
+    def _fit_manual_platform_plane(
+        self,
+        pointcloud_frames: Sequence[np.ndarray],
+        roi: tuple[int, int, int, int],
+        minimum_alignment: float,
+    ) -> PlaneFit:
+        """Fit only the operator-confirmed, guard-banded platform region."""
+
+        per_frame = max(1_000, self.config.max_sample_points // len(pointcloud_frames))
+        samples = [sample_points(extract_roi_points(frame, roi), per_frame) for frame in pointcloud_frames]
+        points = np.concatenate(samples) if samples else np.empty((0, 3), dtype=np.float64)
+        if len(points) < self.config.min_inliers:
+            raise ValueError(
+                f"selected platform ROI has only {len(points)} valid points; "
+                f"expected at least {self.config.min_inliers}"
+            )
+        return fit_plane_ransac(
+            points,
+            iterations=self.config.ransac_iterations,
+            threshold_mm=self.config.ransac_threshold_mm,
+            min_inliers=self.config.min_inliers,
+            expected_normal=np.array([0.0, 0.0, -1.0]),
+            min_normal_alignment=minimum_alignment,
         )
 
     def _inset_measurement_roi(self, roi: tuple[int, int, int, int]) -> tuple[int, int, int, int]:
@@ -294,20 +640,9 @@ class PlatformCalibrator:
         return np.mean(np.stack(masks), axis=0) >= 0.5
 
     def _largest_plane_component(self, stable_mask: np.ndarray) -> np.ndarray:
-        """Return the largest stable plane component without filling its holes.
+        """Return the largest raw stable-plane component without merging gaps."""
 
-        Morphological closing is used *only* to determine connectivity.  The
-        returned support remains the original stable inlier mask, so a later
-        safe ROI can never cross a no-depth hole or an obstacle-sized gap.
-        """
-
-        close_size = max(1, int(self.config.platform_roi_close_kernel_px))
-        close_size = close_size if close_size % 2 else close_size + 1
-        connected = cv2.morphologyEx(
-            stable_mask.astype(np.uint8),
-            cv2.MORPH_CLOSE,
-            np.ones((close_size, close_size), np.uint8),
-        )
+        connected = np.asarray(stable_mask, dtype=np.uint8)
         label_count, labels, stats, _ = cv2.connectedComponentsWithStats(connected, connectivity=8)
         if label_count <= 1:
             raise ValueError("could not find a connected platform-plane area")
@@ -331,6 +666,7 @@ class PlatformCalibrator:
         """Collect full-frame plane points from the exact image-space support."""
 
         chunks: list[np.ndarray] = []
+        per_frame = max(1_000, self.config.max_sample_points // len(pointcloud_frames))
         for grid in pointcloud_frames:
             values = np.asarray(grid, dtype=np.float64)
             valid = np.isfinite(values).all(axis=2)
@@ -339,7 +675,7 @@ class PlatformCalibrator:
             frame_points = values[inliers]
             # Prevent a 640x480 x 60 calibration from needlessly retaining
             # millions of duplicate points before the final sample.
-            chunks.append(sample_points(frame_points, self.config.max_sample_points))
+            chunks.append(sample_points(frame_points, per_frame))
         return np.concatenate(chunks) if chunks else np.empty((0, 3), dtype=np.float64)
 
     @staticmethod
@@ -382,9 +718,10 @@ class PlatformCalibrator:
         """Return signed residual p05/p50/p95 and standard deviation for the full ROI."""
 
         chunks: list[np.ndarray] = []
+        per_frame = max(1_000, self.config.max_sample_points // len(pointcloud_frames))
         for grid in pointcloud_frames:
             frame_points = extract_roi_points(grid, roi)
-            chunks.append(sample_points(frame_points, self.config.max_sample_points))
+            chunks.append(sample_points(frame_points, per_frame))
         points = np.concatenate(chunks) if chunks else np.empty((0, 3), dtype=np.float64)
         if len(points) < self.config.min_inliers:
             raise ValueError(

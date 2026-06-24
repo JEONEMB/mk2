@@ -29,6 +29,7 @@ _STREAM_DEPTH_IR = 4
 _FRAME_DEPTH = 2
 _FRAME_IR = 3
 _RESOLUTIONS = {"320x240": 1, "640x480": 2, "960x540": 3, "1920x1080": 4, "1600x1200": 5, "800x600": 6}
+_USE_UNDISTORTED_GEOMETRY = True
 
 
 class _SYDeviceInfo(ct.Structure):
@@ -147,7 +148,10 @@ class NativeSynexensBackend:
         self._streaming = True
         self._resolution_enum = resolution
         native = _SYIntrinsics()
-        self._check(self._sdk.GetIntric(device_id, resolution, False, ct.byref(native)), "GetIntric(depth)")
+        self._check(
+            self._sdk.GetIntric(device_id, resolution, _USE_UNDISTORTED_GEOMETRY, ct.byref(native)),
+            "GetIntric(depth)",
+        )
         self._intrinsics = CameraIntrinsics(
             float(native.fx), float(native.fy), float(native.cx), float(native.cy), int(native.width), int(native.height)
         )
@@ -168,7 +172,10 @@ class NativeSynexensBackend:
             self._streaming = True
         self._resolution_enum = resolution
         native = _SYIntrinsics()
-        self._check(self._sdk.GetIntric(device_id, resolution, False, ct.byref(native)), "GetIntric(depth)")
+        self._check(
+            self._sdk.GetIntric(device_id, resolution, _USE_UNDISTORTED_GEOMETRY, ct.byref(native)),
+            "GetIntric(depth)",
+        )
         self._intrinsics = CameraIntrinsics(
             float(native.fx), float(native.fy), float(native.cx), float(native.cy), int(native.width), int(native.height)
         )
@@ -188,7 +195,11 @@ class NativeSynexensBackend:
         raw_depth, ir = self._copy_depth_and_ir(frame)
         if raw_depth is None:
             return None
-        pointcloud = self._get_depth_pointcloud(raw_depth)
+        # Use one coordinate convention end-to-end.  The raw cloud remains in
+        # metadata only so calibration preview can prove whether undistortion
+        # materially improves plane quality on this physical installation.
+        raw_pointcloud = self._get_depth_pointcloud(raw_depth, undistort=False)
+        pointcloud = self._get_depth_pointcloud(raw_depth, undistort=_USE_UNDISTORTED_GEOMETRY)
         # The native Z coordinates are metric SDK output. They replace raw
         # uint16 depth, which is not guaranteed to be millimetres.
         depth = pointcloud[..., 2].astype(np.float32)
@@ -203,6 +214,7 @@ class NativeSynexensBackend:
             pointcloud.astype(np.float32),
             time.time(),
             f"{depth.shape[1]}x{depth.shape[0]}",
+            {"raw_pointcloud_xyz": raw_pointcloud.astype(np.float32), "geometry_undistorted": True},
         )
 
     def stop(self) -> None:
@@ -248,7 +260,7 @@ class NativeSynexensBackend:
             offset += byte_count
         return depth, ir
 
-    def _get_depth_pointcloud(self, raw_depth: np.ndarray) -> np.ndarray:
+    def _get_depth_pointcloud(self, raw_depth: np.ndarray, *, undistort: bool) -> np.ndarray:
         depth = np.ascontiguousarray(raw_depth, dtype=np.uint16)
         height, width = depth.shape
         points = np.empty((height, width, 3), dtype=np.float32)
@@ -259,7 +271,7 @@ class NativeSynexensBackend:
                 height,
                 ct.c_void_p(depth.ctypes.data),
                 ct.c_void_p(points.ctypes.data),
-                False,
+                undistort,
             ),
             "GetDepthPointCloud",
         )
@@ -268,7 +280,12 @@ class NativeSynexensBackend:
     def _get_intrinsics_for_frame(self, width: int, height: int) -> CameraIntrinsics:
         resolution = self._resolution_enum or self._resolution_value(f"{width}x{height}")
         native = _SYIntrinsics()
-        self._check(self._sdk.GetIntric(self._device_id(), resolution, False, ct.byref(native)), "GetIntric(depth)")
+        self._check(
+            self._sdk.GetIntric(
+                self._device_id(), resolution, _USE_UNDISTORTED_GEOMETRY, ct.byref(native)
+            ),
+            "GetIntric(depth)",
+        )
         intrinsics = CameraIntrinsics(
             float(native.fx), float(native.fy), float(native.cx), float(native.cy), int(native.width), int(native.height)
         )
