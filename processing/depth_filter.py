@@ -9,18 +9,38 @@ import cv2
 import numpy as np
 
 
-def make_ir_saturation_mask(ir_image: np.ndarray | None, threshold: int, dilate_px: int = 0) -> np.ndarray | None:
-    """Return pixels invalidated by saturated IR illumination."""
+def make_ir_saturation_mask(
+    ir_image: np.ndarray | None,
+    percentile: float,
+    dilate_px: int = 0,
+    min_dynamic_range: float = 0.0,
+    max_mask_ratio: float = 1.0,
+) -> np.ndarray | None:
+    """Return only the per-frame brightest raw-IR tail as a glare mask.
+
+    The CS20 IR stream is uint16. A fixed 8-bit threshold can remove most of a
+    well-lit platform, so uniform/low-dynamic-range frames deliberately return
+    no mask.
+    """
 
     if ir_image is None:
         return None
     ir = np.asarray(ir_image)
     if ir.ndim == 3:
         ir = np.max(ir, axis=2)
-    mask = (ir >= threshold).astype(np.uint8)
+    values = ir[np.isfinite(ir)]
+    if not len(values) or not 0.0 < percentile < 100.0:
+        return None
+    low, high = np.percentile(values, (1.0, 99.9))
+    if high - low < min_dynamic_range:
+        return None
+    threshold = np.percentile(values, percentile)
+    mask = ir >= threshold
+    if float(mask.mean()) > max_mask_ratio:
+        return None
     if dilate_px > 0:
         size = 2 * dilate_px + 1
-        mask = cv2.dilate(mask, np.ones((size, size), np.uint8), iterations=1)
+        mask = cv2.dilate(mask.astype(np.uint8), np.ones((size, size), np.uint8), iterations=1).astype(bool)
     return mask.astype(bool)
 
 
@@ -66,15 +86,28 @@ def temporal_median(depth_frames: Iterable[np.ndarray]) -> np.ndarray:
         return np.nanmedian(np.stack(frames), axis=0).astype(np.float32)
 
 
-def preprocess_depth(depth_mm: np.ndarray, ir_image: np.ndarray | None, depth_config: object) -> np.ndarray:
-    """Perform one-frame preprocessing; temporal smoothing is stateful below."""
+def preprocess_depth_with_mask(
+    depth_mm: np.ndarray, ir_image: np.ndarray | None, depth_config: object
+) -> tuple[np.ndarray, np.ndarray | None]:
+    """Perform one-frame preprocessing and return the applied IR glare mask."""
 
     cleaned = remove_invalid_depth(depth_mm, depth_config.min_valid_mm, depth_config.max_valid_mm)
     glare = make_ir_saturation_mask(
-        ir_image, depth_config.ir_saturation_threshold, depth_config.ir_saturation_dilate_px
+        ir_image,
+        depth_config.ir_saturation_percentile,
+        depth_config.ir_saturation_dilate_px,
+        depth_config.ir_min_dynamic_range,
+        depth_config.ir_max_mask_ratio,
     )
     cleaned = apply_ir_mask(cleaned, glare)
-    return median_filter_depth(cleaned, depth_config.spatial_median_kernel)
+    return median_filter_depth(cleaned, depth_config.spatial_median_kernel), glare
+
+
+def preprocess_depth(depth_mm: np.ndarray, ir_image: np.ndarray | None, depth_config: object) -> np.ndarray:
+    """Perform one-frame preprocessing; temporal smoothing is stateful below."""
+
+    cleaned, _ = preprocess_depth_with_mask(depth_mm, ir_image, depth_config)
+    return cleaned
 
 
 class DepthPreprocessor:
@@ -83,11 +116,23 @@ class DepthPreprocessor:
     def __init__(self, depth_config: object) -> None:
         self.config = depth_config
         self._history: deque[np.ndarray] = deque(maxlen=depth_config.temporal_window)
+        self.last_ir_mask_ratio = 0.0
+        self.last_valid_depth_ratio = 0.0
 
     def reset(self) -> None:
         self._history.clear()
 
     def process(self, depth_mm: np.ndarray, ir_image: np.ndarray | None = None) -> np.ndarray:
-        spatial = preprocess_depth(depth_mm, ir_image, self.config)
+        spatial, glare = preprocess_depth_with_mask(depth_mm, ir_image, self.config)
+        self.last_ir_mask_ratio = float(glare.mean()) if glare is not None else 0.0
         self._history.append(spatial)
-        return temporal_median(self._history)
+        temporal = temporal_median(self._history)
+        self.last_valid_depth_ratio = float(np.isfinite(temporal).mean())
+        return temporal
+
+    @property
+    def diagnostics(self) -> dict[str, float]:
+        return {
+            "valid_depth_ratio": self.last_valid_depth_ratio,
+            "ir_mask_ratio": self.last_ir_mask_ratio,
+        }

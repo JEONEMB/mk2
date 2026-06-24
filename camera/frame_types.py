@@ -49,6 +49,7 @@ class DepthFrame:
     depth_mm: np.ndarray
     intrinsics: CameraIntrinsics
     ir_image: np.ndarray | None = None
+    pointcloud_xyz: np.ndarray | None = None
     timestamp: float = 0.0
     resolution_name: str = ""
     metadata: dict[str, Any] | None = None
@@ -60,6 +61,8 @@ class DepthFrame:
         self.intrinsics.validate_for(depth.shape)
         if self.ir_image is not None and np.asarray(self.ir_image).shape[:2] != depth.shape:
             raise ValueError("IR and depth image sizes must match")
+        if self.pointcloud_xyz is not None and np.asarray(self.pointcloud_xyz).shape != (*depth.shape, 3):
+            raise ValueError("pointcloud_xyz must have shape H x W x 3 matching depth")
 
     @property
     def width(self) -> int:
@@ -69,10 +72,14 @@ class DepthFrame:
     def height(self) -> int:
         return self.depth_mm.shape[0]
 
-    def with_depth(self, depth_mm: np.ndarray) -> "DepthFrame":
+    def with_depth(self, depth_mm: np.ndarray, pointcloud_xyz: np.ndarray | None = None) -> "DepthFrame":
         """Return a new frame after scale correction/filtering."""
 
-        return replace(self, depth_mm=np.asarray(depth_mm, dtype=np.float32))
+        return replace(
+            self,
+            depth_mm=np.asarray(depth_mm, dtype=np.float32),
+            pointcloud_xyz=self.pointcloud_xyz if pointcloud_xyz is None else np.asarray(pointcloud_xyz, dtype=np.float32),
+        )
 
 
 @dataclass(frozen=True)

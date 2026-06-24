@@ -8,9 +8,7 @@ millimetre arrays and calibration models.
 from __future__ import annotations
 
 import argparse
-from dataclasses import asdict
-from typing import Iterable
-
+from dataclasses import asdict, replace
 import numpy as np
 
 from calibration.calibration_store import (
@@ -29,8 +27,14 @@ from measurement.rectangle_fitter import RectangleFitter
 from measurement.top_surface import TopSurfaceExtractor
 from measurement.volume_estimator import BoxVolumeEstimator, VolumeResult
 from processing.depth_filter import DepthPreprocessor
-from processing.pointcloud_utils import depth_to_pointcloud
+from processing.plane_fitting import point_to_plane_signed_distance
+from processing.pointcloud_utils import depth_to_pointcloud, rescale_pointcloud_to_depth
 from visualization.viewer import Viewer
+
+
+_MIN_REASONABLE_DEPTH_SCALE = 0.5
+_MAX_REASONABLE_DEPTH_SCALE = 2.0
+_INTERACTIVE_RESOLUTIONS = ("320x240", "640x480")
 
 
 def parse_args() -> argparse.Namespace:
@@ -40,6 +44,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--calibrate", action="store_true", help="save an empty-platform model and exit")
     parser.add_argument("--detect", action="store_true", help="print only box point count and ROI, then exit")
     parser.add_argument("--measure", action="store_true", help="perform one measurement and exit")
+    parser.add_argument(
+        "--platform-height-mm",
+        type=float,
+        help="known lens-center-to-platform distance in mm, used with --calibrate",
+    )
     parser.add_argument(
         "--depth-reference-mm",
         type=float,
@@ -55,8 +64,12 @@ def clean_frame(
 
     scaled = scale_model.apply(frame.depth_mm) if scale_model else frame.depth_mm
     cleaned_depth = preprocessor.process(scaled, frame.ir_image)
-    cleaned_frame = frame.with_depth(cleaned_depth)
-    return cleaned_frame, depth_to_pointcloud(cleaned_depth, frame.intrinsics)
+    if frame.pointcloud_xyz is not None:
+        cloud = rescale_pointcloud_to_depth(frame.pointcloud_xyz, cleaned_depth)
+    else:
+        cloud = depth_to_pointcloud(cleaned_depth, frame.intrinsics)
+    cleaned_frame = frame.with_depth(cleaned_depth, cloud)
+    return cleaned_frame, cloud
 
 
 def collect_pointclouds(
@@ -88,7 +101,25 @@ def make_estimator(config: MeasurementConfig) -> BoxVolumeEstimator:
 
 def print_result(result: VolumeResult) -> None:
     data = asdict(result)
+    # The image-sized mask belongs on the OpenCV overlay, not in the terminal.
+    data.pop("candidate_mask", None)
     print(data)
+
+
+def candidate_summary(candidates: tuple[object, ...]) -> list[dict[str, object]]:
+    """Keep terminal diagnostics compact while exposing every connected component."""
+
+    return [
+        {
+            "roi": candidate.roi,
+            "height_mm": round(candidate.median_height_mm, 2),
+            "max_height_mm": round(candidate.max_height_mm, 2),
+            "point_count": candidate.point_count,
+            "accepted": candidate.accepted,
+            "reason": candidate.reason,
+        }
+        for candidate in candidates
+    ]
 
 
 def print_detection(camera: SynexensCamera, estimator: BoxVolumeEstimator, preprocessor: DepthPreprocessor,
@@ -99,7 +130,15 @@ def print_detection(camera: SynexensCamera, estimator: BoxVolumeEstimator, prepr
     frame = _next_frame(camera)
     _, cloud = clean_frame(frame, preprocessor, scale_model)
     detection = estimator.detect_box(cloud, platform_model)
-    print({"found": detection.found, "box_point_count": detection.point_count, "roi": detection.roi})
+    print(
+        {
+            "found": detection.found,
+            "box_point_count": detection.point_count,
+            "roi": detection.roi,
+            "warning": detection.warning,
+            "candidates": candidate_summary(detection.candidates),
+        }
+    )
     return 0 if detection.found else 1
 
 
@@ -108,14 +147,118 @@ def calibrate_platform(
     calibrator: PlatformCalibrator,
     config: CalibrationConfig,
     preprocessor: DepthPreprocessor,
-    scale_model: DepthScaleModel | None,
-) -> PlatformModel:
+    reference_height_mm: float | None = None,
+) -> tuple[PlatformModel, DepthScaleModel | None]:
+    """Calibrate an empty platform, optionally tying its metric scale to a ruler."""
+
     preprocessor.reset()
-    points, resolution = collect_pointclouds(camera, config.frame_count, preprocessor, scale_model)
-    model = calibrator.calibrate(points, resolution=resolution)
+    # Always start from native/raw SDK geometry. A new measured reference then
+    # replaces any previous one-point scale rather than compounding it.
+    points, resolution = collect_pointclouds(camera, config.frame_count, preprocessor, None)
+    raw_model = calibrator.calibrate(points, resolution=resolution)
+    scale_model: DepthScaleModel | None = None
+    model = raw_model
+    if reference_height_mm is not None:
+        if reference_height_mm <= 0:
+            raise ValueError("measured camera height must be positive")
+        correction = reference_height_mm / raw_model.camera_height_mm
+        if not _MIN_REASONABLE_DEPTH_SCALE <= correction <= _MAX_REASONABLE_DEPTH_SCALE:
+            raise ValueError(
+                f"height scale {correction:.4f} is implausible. Check the entered height; "
+                "enter 700 or 70cm for a seventy-centimetre installation."
+            )
+        scale_model = DepthScaleModel(
+            scale=correction,
+            offset_mm=0.0,
+            sample_count=1,
+            rms_error_mm=abs(reference_height_mm - raw_model.camera_height_mm),
+        )
+        scaled_points = [point_grid * correction for point_grid in points]
+        model = calibrator.calibrate(scaled_points, resolution=resolution)
+        model = replace(
+            model,
+            native_camera_height_mm=raw_model.camera_height_mm,
+            applied_depth_scale=correction,
+        )
+        save_depth_scale_model(scale_model)
+        print(
+            "Camera height calibration: "
+            f"SDK plane={raw_model.camera_height_mm:.2f} mm, "
+            f"measured={reference_height_mm:.2f} mm, scale={correction:.8f}, "
+            f"corrected={model.camera_height_mm:.2f} mm"
+        )
     path = save_platform_model(model)
-    print(f"Platform plane saved to {path}; camera_height_mm={model.camera_height_mm:.2f}")
-    return model
+    print(
+        f"Platform plane saved to {path}; camera_height_mm={model.camera_height_mm:.2f}; "
+        f"normal alignment={model.normal_alignment:.3f}; ROI area={model.roi_area_ratio:.1%}; "
+        f"platform mask={int(model.platform_mask.sum()) if model.platform_mask is not None else 0} px"
+    )
+    print(
+        "Measurement ROI plane residuals (mm): "
+        f"p05={model.residual_p05_mm:.2f}, p50={model.residual_p50_mm:.2f}, "
+        f"p95={model.residual_p95_mm:.2f}, std={model.residual_std_mm:.2f}"
+    )
+    return model, scale_model
+
+
+def parse_platform_height_mm(response: str) -> float:
+    """Convert ``700``, ``70cm``, or bare ``70`` to a positive millimetre height."""
+
+    value = response.strip().lower()
+    multiplier = 1.0
+    if value.endswith("cm"):
+        value = value[:-2].strip()
+        multiplier = 10.0
+    try:
+        height_mm = float(value) * multiplier
+    except ValueError as exc:
+        raise ValueError("Enter a positive height, for example 700 or 70cm.") from exc
+    # Camera-to-platform distances below 100 mm are implausible here. Most
+    # operators naturally enter '70' for 70 cm, so interpret it safely.
+    if multiplier == 1.0 and 0 < height_mm < 100.0:
+        height_mm *= 10.0
+    if height_mm <= 0:
+        raise ValueError("Height must be greater than zero.")
+    return height_mm
+
+
+def prompt_platform_height_mm() -> float | None:
+    """Show a small modal dialog for the measured lens-to-platform height.
+
+    ``None`` means that the operator pressed Cancel, which must not overwrite
+    an existing calibration.
+    """
+
+    try:
+        import tkinter as tk
+        from tkinter import messagebox, simpledialog
+    except ImportError as exc:  # pragma: no cover - standard Windows Python includes Tk.
+        raise ValueError("Tkinter is required to show the camera-height input window.") from exc
+
+    try:
+        root = tk.Tk()
+    except tk.TclError as exc:
+        raise ValueError(f"Could not open the camera-height input window: {exc}") from exc
+    root.withdraw()
+    root.attributes("-topmost", True)
+    try:
+        while True:
+            response = simpledialog.askstring(
+                "Camera height",
+                "렌즈 중심에서 빈 플랫폼까지의 거리\n"
+                "mm 단위로 입력하세요.  예: 700 또는 70cm\n"
+                "숫자 70은 70cm(700mm)로 해석합니다.",
+                initialvalue="700",
+                parent=root,
+            )
+            if response is None:
+                return None
+            try:
+                return parse_platform_height_mm(response)
+            except ValueError as exc:
+                messagebox.showerror("입력 오류", str(exc), parent=root)
+    finally:
+        root.destroy()
 
 
 def calibrate_depth_scale(camera: SynexensCamera, known_distance_mm: float) -> DepthScaleModel:
@@ -149,6 +292,36 @@ def run_once_measurement(
     return cleaned, cloud, estimator.measure(cloud, platform_model)
 
 
+def measure_with_dynamic_baseline(
+    estimator: BoxVolumeEstimator,
+    calibrator: PlatformCalibrator,
+    points_grid: np.ndarray,
+    platform_model: PlatformModel,
+) -> tuple[VolumeResult, PlatformModel]:
+    """Use the d-time floor offset before selecting elevated box points."""
+
+    dynamic_model = calibrator.update_floor_for_measurement(points_grid, platform_model)
+    return estimator.measure(points_grid, dynamic_model), dynamic_model
+
+
+def platform_relative_height_map(points_grid: np.ndarray, platform_model: PlatformModel) -> np.ndarray:
+    """Return live height above the platform inside its calibrated rectangular ROI."""
+
+    heights = point_to_plane_signed_distance(
+        points_grid, platform_model.plane_normal, platform_model.plane_d
+    ).astype(np.float32)
+    x, y, width, height = platform_model.measurement_roi
+    roi_heights = np.full(heights.shape, np.nan, dtype=np.float32)
+    roi_heights[y : y + height, x : x + width] = heights[y : y + height, x : x + width]
+    return roi_heights
+
+
+def next_interactive_resolution(current_resolution: str) -> str:
+    """Toggle between the two CS20 resolutions used by the interactive viewer."""
+
+    return "640x480" if current_resolution == "320x240" else "320x240"
+
+
 def interactive_loop(
     camera: SynexensCamera,
     calibrator: PlatformCalibrator,
@@ -159,35 +332,117 @@ def interactive_loop(
     platform_model: PlatformModel | None,
 ) -> None:
     viewer = Viewer()
-    show_ir = False
     result: VolumeResult | None = None
+    detection_preview = None
+    height_view_active = False
     try:
         while True:
             cleaned, cloud, _ = run_once_measurement(camera, estimator, preprocessor, scale_model, None)
-            key = viewer.show_depth(
-                cleaned, depth_mm=cleaned.depth_mm, show_ir=show_ir, result=result, platform_model=platform_model
+            current_resolution = cleaned.resolution_name
+            dynamic_height_model: PlatformModel | None = None
+            relative_height_mm: np.ndarray | None = None
+            if height_view_active and platform_model is not None:
+                dynamic_height_model = calibrator.update_floor_for_measurement(cloud, platform_model)
+                relative_height_mm = platform_relative_height_map(cloud, dynamic_height_model)
+            key = viewer.show_frames(
+                cleaned,
+                depth_mm=cleaned.depth_mm,
+                result=result,
+                detection=detection_preview,
+                platform_model=platform_model,
+                diagnostics=preprocessor.diagnostics,
+                height_above_platform_mm=relative_height_mm,
+                height_view_active=height_view_active,
+                dynamic_baseline_delta_mm=(
+                    dynamic_height_model.camera_height_mm - platform_model.camera_height_mm
+                    if dynamic_height_model is not None and platform_model is not None
+                    else None
+                ),
             )
+            key = key.lower()
             if key == "q":
                 return
             if key == "i":
-                show_ir = not show_ir
+                print(f"IR window {'opened' if viewer.toggle_ir() else 'closed'}.")
+            elif key == "h":
+                if platform_model is None:
+                    print("Height map needs an empty-platform calibration. Press c first.")
+                else:
+                    height_view_active = not height_view_active
+                    print(f"Platform-relative height map {'opened' if height_view_active else 'closed'}.")
+            elif key == "r":
+                target_resolution = next_interactive_resolution(current_resolution)
+                try:
+                    camera.set_resolution(target_resolution)
+                    preprocessor.reset()
+                    # Pixel coordinates and intrinsics change with resolution.
+                    # Keep the distance scale, but require a fresh empty-platform
+                    # ROI/plane calibration before detecting or measuring.
+                    platform_model = None
+                    result = None
+                    detection_preview = None
+                    height_view_active = False
+                    print(
+                        f"Resolution changed: {current_resolution} -> {target_resolution}. "
+                        "Press c to calibrate the new resolution."
+                    )
+                except CameraError as exc:
+                    print(f"Resolution change failed: {exc}")
             elif key == "b":
                 if platform_model is None:
                     print("No platform model. Press c with an empty platform first.")
                 else:
                     detection = estimator.detect_box(cloud, platform_model)
-                    print({"found": detection.found, "box_point_count": detection.point_count, "roi": detection.roi})
+                    detection_preview = detection
+                    result = None
+                    print(
+                        {
+                            "found": detection.found,
+                            "box_point_count": detection.point_count,
+                            "roi": detection.roi,
+                            "warning": detection.warning,
+                            "candidates": candidate_summary(detection.candidates),
+                        }
+                    )
             elif key == "c":
-                print("Calibrating platform: keep the platform empty...")
-                platform_model = calibrate_platform(
-                    camera, calibrator, calibration_config, preprocessor, scale_model
-                )
-                result = None
+                try:
+                    reference_height_mm = prompt_platform_height_mm()
+                    if reference_height_mm is None:
+                        print("Platform calibration cancelled; existing calibration was kept.")
+                        continue
+                    print("Calibrating platform: keep the platform empty...")
+                    platform_model, new_scale_model = calibrate_platform(
+                        camera, calibrator, calibration_config, preprocessor, reference_height_mm
+                    )
+                    scale_model = new_scale_model
+                    result = None
+                    detection_preview = None
+                    height_view_active = False
+                    print(
+                        f"Platform ROI: {platform_model.measurement_roi}; "
+                        f"camera_height_mm={platform_model.camera_height_mm:.2f}"
+                    )
+                except ValueError as exc:
+                    print(f"Platform calibration failed: {exc}")
             elif key == "d":
                 if platform_model is None:
                     print("No platform model. Press c with an empty platform first.")
                 else:
-                    result = estimator.measure(cloud, platform_model)
+                    result, dynamic_model = measure_with_dynamic_baseline(
+                        estimator, calibrator, cloud, platform_model
+                    )
+                    detection_preview = None
+                    print(
+                        f"Dynamic baseline: {dynamic_model.camera_height_mm:.2f} mm "
+                        f"(delta {dynamic_model.camera_height_mm - platform_model.camera_height_mm:+.2f} mm)"
+                    )
+                    print(
+                        "Dynamic ROI plane residuals (mm): "
+                        f"p05={dynamic_model.residual_p05_mm:.2f}, "
+                        f"p50={dynamic_model.residual_p50_mm:.2f}, "
+                        f"p95={dynamic_model.residual_p95_mm:.2f}, "
+                        f"std={dynamic_model.residual_std_mm:.2f}"
+                    )
                     print_result(result)
     finally:
         viewer.close()
@@ -210,26 +465,51 @@ def main() -> int:
         camera.start()
         print(f"Connected: {info.model} serial={info.serial_number or 'unknown'}")
         scale_model = load_depth_scale_model()
+        if scale_model is not None and not _MIN_REASONABLE_DEPTH_SCALE <= scale_model.scale <= _MAX_REASONABLE_DEPTH_SCALE:
+            print(
+                f"Ignoring implausible saved depth scale {scale_model.scale:.6f}. "
+                "Press c and enter the measured height again."
+            )
+            scale_model = None
         if args.depth_reference_mm is not None:
             scale_model = calibrate_depth_scale(camera, args.depth_reference_mm)
             if not args.calibrate and not args.measure:
                 return 0
+        # Command-line automation may reuse a saved model. Interactive use must
+        # start uncalibrated so the operator explicitly captures today's empty platform.
         platform_model = load_platform_model()
         if args.calibrate:
-            platform_model = calibrate_platform(
-                camera, calibrator, calibration_config, preprocessor, scale_model
+            platform_model, calibrated_scale_model = calibrate_platform(
+                camera,
+                calibrator,
+                calibration_config,
+                preprocessor,
+                args.platform_height_mm,
             )
+            if calibrated_scale_model is not None:
+                scale_model = calibrated_scale_model
             if not args.measure and not args.detect:
                 return 0
         if args.detect:
             return print_detection(camera, estimator, preprocessor, scale_model, platform_model)
         if args.measure:
-            _, _, result = run_once_measurement(
-                camera, estimator, preprocessor, scale_model, platform_model
-            )
-            if result is None:
+            if platform_model is None:
                 print("Measurement skipped: platform_plane.json is not available. Run --calibrate first.")
                 return 2
+            frame = _next_frame(camera)
+            _, cloud = clean_frame(frame, preprocessor, scale_model)
+            result, dynamic_model = measure_with_dynamic_baseline(estimator, calibrator, cloud, platform_model)
+            print(
+                f"Dynamic baseline: {dynamic_model.camera_height_mm:.2f} mm "
+                f"(delta {dynamic_model.camera_height_mm - platform_model.camera_height_mm:+.2f} mm)"
+            )
+            print(
+                "Dynamic ROI plane residuals (mm): "
+                f"p05={dynamic_model.residual_p05_mm:.2f}, "
+                f"p50={dynamic_model.residual_p50_mm:.2f}, "
+                f"p95={dynamic_model.residual_p95_mm:.2f}, "
+                f"std={dynamic_model.residual_std_mm:.2f}"
+            )
             print_result(result)
             return 0 if result.success else 1
         if args.headless:
@@ -239,7 +519,7 @@ def main() -> int:
             print(f"Depth frame: {cleaned.width}x{cleaned.height}, valid points={valid_count}")
             return 0
         interactive_loop(
-            camera, calibrator, estimator, calibration_config, preprocessor, scale_model, platform_model
+            camera, calibrator, estimator, calibration_config, preprocessor, scale_model, None
         )
         return 0
     except CameraError as exc:

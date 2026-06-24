@@ -54,11 +54,19 @@ def fit_plane_ransac(
     threshold_mm: float = 4.0,
     min_inliers: int = 1_000,
     rng: np.random.Generator | None = None,
+    expected_normal: np.ndarray | None = None,
+    min_normal_alignment: float = 0.0,
 ) -> PlaneFit:
     values = _finite_points(points)
     if len(values) < 3:
         raise ValueError("at least three finite points are required for a plane")
     generator = rng or np.random.default_rng(0)
+    expected: np.ndarray | None = None
+    if expected_normal is not None:
+        expected = np.asarray(expected_normal, dtype=np.float64)
+        expected /= np.linalg.norm(expected)
+        if not 0.0 <= min_normal_alignment <= 1.0:
+            raise ValueError("min_normal_alignment must be between 0 and 1")
     best_mask: np.ndarray | None = None
     best_score = (-1, np.inf)
     for _ in range(iterations):
@@ -67,6 +75,8 @@ def fit_plane_ransac(
         if np.linalg.norm(cross) < 1e-9:
             continue
         normal, d = _normalise_plane(cross, -np.dot(cross, sample[0]))
+        if expected is not None and abs(float(np.dot(normal, expected))) < min_normal_alignment:
+            continue
         residuals = np.abs(point_to_plane_signed_distance(values, normal, d))
         mask = residuals <= threshold_mm
         score = (int(mask.sum()), float(residuals[mask].mean()) if mask.any() else np.inf)

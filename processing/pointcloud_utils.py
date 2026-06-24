@@ -21,6 +21,27 @@ def depth_to_pointcloud(depth_mm: np.ndarray, intrinsics: CameraIntrinsics) -> n
     return points
 
 
+def rescale_pointcloud_to_depth(native_points_xyz: np.ndarray, depth_mm: np.ndarray) -> np.ndarray:
+    """Keep SDK point-cloud rays while replacing Z with filtered/scaled depth.
+
+    Synexens' native point cloud already incorporates its camera model.  Scaling
+    points along each native ray preserves that geometry and makes the result
+    exactly consistent with the depth image used by the measurement pipeline.
+    """
+
+    native = np.asarray(native_points_xyz, dtype=np.float32)
+    depth = np.asarray(depth_mm, dtype=np.float32)
+    if native.shape != (*depth.shape, 3):
+        raise ValueError("native point cloud must match the depth image shape")
+    native_z = native[..., 2]
+    valid = np.isfinite(native).all(axis=2) & np.isfinite(depth) & (native_z > 0)
+    points = np.full_like(native, np.nan, dtype=np.float32)
+    with np.errstate(divide="ignore", invalid="ignore"):
+        rays = native / native_z[..., None]
+        points[valid] = rays[valid] * depth[valid, None]
+    return points
+
+
 def valid_points(points_xyz: np.ndarray, min_z_mm: float = 0.0, max_z_mm: float = np.inf) -> np.ndarray:
     points = np.asarray(points_xyz, dtype=np.float32).reshape(-1, 3)
     valid = np.isfinite(points).all(axis=1) & (points[:, 2] >= min_z_mm) & (points[:, 2] <= max_z_mm)

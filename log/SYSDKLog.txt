@@ -86,3 +86,884 @@ App start up.
 /***********************************
 App clean up.
 ************************************/
+/***********************************
+App start up.
+************************************/
+2026-06-24 10:37:20 INFO  4752   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:197:FindDevice In
+2026-06-24 10:37:20 ERROR 4752   E:\code\SYSDK4\SynexensSDK\src\communicate\UVC\SYCommunicateManagerImplUVC.cpp:114:uvc_find_device error:-4
+2026-06-24 10:37:20 DEBUG 4752   E:\code\SYSDK4\SynexensSDK\src\communicate\TCP\SYCommunicateManagerImplTCP.cpp:295:UDP Find local IP:70.12.103.64
+2026-06-24 10:37:20 DEBUG 4752   E:\code\SYSDK4\SynexensSDK\src\communicate\TCP\SYCommunicateManagerImplTCP.cpp:295:UDP Find local IP:172.24.128.1
+2026-06-24 10:37:21 INFO  4752   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:230:FindDevice Out result: 0
+2026-06-24 10:37:21 INFO  4752   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:197:FindDevice In
+2026-06-24 10:37:21 INFO  4752   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:230:FindDevice Out result: 0
+2026-06-24 10:37:21 INFO  4752   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:236:OpenDevice In, DeviceID:1 ,DeviceType:3
+2026-06-24 10:37:22 INFO  4752   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:312:OpenDevice Out result: 0
+2026-06-24 10:37:22 INFO  4752   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1225:GetDeviceSN In, DeviceID:1
+2026-06-24 10:37:23 INFO  4752   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1245:GetDeviceSN Out result: 0
+2026-06-24 10:37:23 INFO  4752   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1225:GetDeviceSN In, DeviceID:1
+2026-06-24 10:37:23 INFO  4752   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1245:GetDeviceSN Out result: 0
+2026-06-24 10:37:23 INFO  4752   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:546:SetFrameResolution In, DeviceID:1 ,frameType:2 ,resolution:1
+2026-06-24 10:37:23 INFO  4752   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:566:SetFrameResolution Out result: 0
+2026-06-24 10:37:23 INFO  4752   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:468:StartStreaming In, DeviceID:1 ,streamType:4
+2026-06-24 10:37:24 ERROR 21728  E:\code\SYSDK4\SynexensSDK\src\communicate\sonix\SYCommunicateSonix.cpp:57:SonixCam_MulSensorRegisterCustomRead error:1,SonixIndex:0,Ctrl:
+2026-06-24 10:37:27 INFO  4752   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:488:StartStreaming Out result: 0
+2026-06-24 10:37:27 INFO  4752   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1459:GetIntric In, DeviceID:1 ,resolution:1
+2026-06-24 10:37:27 INFO  4752   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1479:GetIntric Out result: 0
+2026-06-24 10:38:49 INFO  4752   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:494:StopStreaming In, DeviceID:1
+2026-06-24 10:38:49 INFO  4752   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:514:StopStreaming Out result: 0
+2026-06-24 10:38:49 INFO  4752   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:318:CloseDevice In, DeviceID:1
+2026-06-24 10:38:49 INFO  21728  E:\code\SYSDK4\SynexensSDK\src\device\CS20\SYDeviceCS20.cpp:928:PBDownloadThread out
+2026-06-24 10:38:49 INFO  4752   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:346:CloseDevice Out result: 0
+/***********************************
+App clean up.
+************************************/
+/***********************************
+App start up.
+************************************/
+2026-06-24 10:42:35 INFO  1912   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:197:FindDevice In
+2026-06-24 10:42:35 ERROR 1912   E:\code\SYSDK4\SynexensSDK\src\communicate\UVC\SYCommunicateManagerImplUVC.cpp:114:uvc_find_device error:-4
+2026-06-24 10:42:36 DEBUG 1912   E:\code\SYSDK4\SynexensSDK\src\communicate\TCP\SYCommunicateManagerImplTCP.cpp:295:UDP Find local IP:70.12.103.64
+2026-06-24 10:42:36 DEBUG 1912   E:\code\SYSDK4\SynexensSDK\src\communicate\TCP\SYCommunicateManagerImplTCP.cpp:295:UDP Find local IP:172.24.128.1
+2026-06-24 10:42:37 INFO  1912   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:230:FindDevice Out result: 0
+2026-06-24 10:42:37 INFO  1912   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:197:FindDevice In
+2026-06-24 10:42:37 INFO  1912   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:230:FindDevice Out result: 0
+2026-06-24 10:42:37 INFO  1912   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:236:OpenDevice In, DeviceID:1 ,DeviceType:3
+2026-06-24 10:42:38 INFO  1912   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:312:OpenDevice Out result: 0
+2026-06-24 10:42:38 INFO  1912   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1225:GetDeviceSN In, DeviceID:1
+2026-06-24 10:42:39 INFO  1912   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1245:GetDeviceSN Out result: 0
+2026-06-24 10:42:39 INFO  1912   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1225:GetDeviceSN In, DeviceID:1
+2026-06-24 10:42:39 INFO  1912   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1245:GetDeviceSN Out result: 0
+2026-06-24 10:42:39 INFO  1912   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:546:SetFrameResolution In, DeviceID:1 ,frameType:2 ,resolution:1
+2026-06-24 10:42:39 INFO  1912   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:566:SetFrameResolution Out result: 0
+2026-06-24 10:42:39 INFO  1912   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:468:StartStreaming In, DeviceID:1 ,streamType:4
+2026-06-24 10:42:41 ERROR 7520   E:\code\SYSDK4\SynexensSDK\src\communicate\sonix\SYCommunicateSonix.cpp:57:SonixCam_MulSensorRegisterCustomRead error:1,SonixIndex:0,Ctrl:
+2026-06-24 10:42:45 INFO  1912   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:488:StartStreaming Out result: 0
+2026-06-24 10:42:45 INFO  1912   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1459:GetIntric In, DeviceID:1 ,resolution:1
+2026-06-24 10:42:45 INFO  1912   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1479:GetIntric Out result: 0
+2026-06-24 10:44:11 INFO  1912   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:494:StopStreaming In, DeviceID:1
+2026-06-24 10:44:11 INFO  1912   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:514:StopStreaming Out result: 0
+2026-06-24 10:44:11 INFO  1912   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:318:CloseDevice In, DeviceID:1
+2026-06-24 10:44:11 INFO  7520   E:\code\SYSDK4\SynexensSDK\src\device\CS20\SYDeviceCS20.cpp:928:PBDownloadThread out
+2026-06-24 10:44:11 INFO  1912   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:346:CloseDevice Out result: 0
+/***********************************
+App clean up.
+************************************/
+/***********************************
+App start up.
+************************************/
+2026-06-24 10:52:43 INFO  7624   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:197:FindDevice In
+2026-06-24 10:52:43 ERROR 7624   E:\code\SYSDK4\SynexensSDK\src\communicate\UVC\SYCommunicateManagerImplUVC.cpp:114:uvc_find_device error:-4
+2026-06-24 10:52:43 DEBUG 7624   E:\code\SYSDK4\SynexensSDK\src\communicate\TCP\SYCommunicateManagerImplTCP.cpp:295:UDP Find local IP:70.12.103.64
+2026-06-24 10:52:44 DEBUG 7624   E:\code\SYSDK4\SynexensSDK\src\communicate\TCP\SYCommunicateManagerImplTCP.cpp:295:UDP Find local IP:172.24.128.1
+2026-06-24 10:52:44 INFO  7624   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:230:FindDevice Out result: 0
+2026-06-24 10:52:44 INFO  7624   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:197:FindDevice In
+2026-06-24 10:52:44 INFO  7624   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:230:FindDevice Out result: 0
+2026-06-24 10:52:44 INFO  7624   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:236:OpenDevice In, DeviceID:1 ,DeviceType:3
+2026-06-24 10:52:45 INFO  7624   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:312:OpenDevice Out result: 0
+2026-06-24 10:52:45 INFO  7624   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1225:GetDeviceSN In, DeviceID:1
+2026-06-24 10:52:46 INFO  7624   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1245:GetDeviceSN Out result: 0
+2026-06-24 10:52:46 INFO  7624   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1225:GetDeviceSN In, DeviceID:1
+2026-06-24 10:52:46 INFO  7624   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1245:GetDeviceSN Out result: 0
+2026-06-24 10:52:46 INFO  7624   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:546:SetFrameResolution In, DeviceID:1 ,frameType:2 ,resolution:1
+2026-06-24 10:52:46 INFO  7624   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:566:SetFrameResolution Out result: 0
+2026-06-24 10:52:46 INFO  7624   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:468:StartStreaming In, DeviceID:1 ,streamType:4
+2026-06-24 10:52:48 ERROR 300    E:\code\SYSDK4\SynexensSDK\src\communicate\sonix\SYCommunicateSonix.cpp:57:SonixCam_MulSensorRegisterCustomRead error:1,SonixIndex:0,Ctrl:
+2026-06-24 10:52:51 INFO  7624   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:488:StartStreaming Out result: 0
+2026-06-24 10:52:51 INFO  7624   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1459:GetIntric In, DeviceID:1 ,resolution:1
+2026-06-24 10:52:51 INFO  7624   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1479:GetIntric Out result: 0
+2026-06-24 10:54:48 INFO  7624   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:494:StopStreaming In, DeviceID:1
+2026-06-24 10:54:48 INFO  7624   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:514:StopStreaming Out result: 0
+2026-06-24 10:54:48 INFO  7624   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:318:CloseDevice In, DeviceID:1
+2026-06-24 10:54:48 INFO  300    E:\code\SYSDK4\SynexensSDK\src\device\CS20\SYDeviceCS20.cpp:928:PBDownloadThread out
+2026-06-24 10:54:48 INFO  7624   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:346:CloseDevice Out result: 0
+/***********************************
+App clean up.
+************************************/
+/***********************************
+App start up.
+************************************/
+2026-06-24 10:56:08 INFO  16680  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:197:FindDevice In
+2026-06-24 10:56:08 ERROR 16680  E:\code\SYSDK4\SynexensSDK\src\communicate\UVC\SYCommunicateManagerImplUVC.cpp:114:uvc_find_device error:-4
+2026-06-24 10:56:08 DEBUG 16680  E:\code\SYSDK4\SynexensSDK\src\communicate\TCP\SYCommunicateManagerImplTCP.cpp:295:UDP Find local IP:70.12.103.64
+2026-06-24 10:56:08 DEBUG 16680  E:\code\SYSDK4\SynexensSDK\src\communicate\TCP\SYCommunicateManagerImplTCP.cpp:295:UDP Find local IP:172.24.128.1
+2026-06-24 10:56:09 INFO  16680  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:230:FindDevice Out result: 0
+2026-06-24 10:56:09 INFO  16680  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:197:FindDevice In
+2026-06-24 10:56:09 INFO  16680  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:230:FindDevice Out result: 0
+2026-06-24 10:56:09 INFO  16680  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:236:OpenDevice In, DeviceID:1 ,DeviceType:3
+2026-06-24 10:56:10 INFO  16680  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:312:OpenDevice Out result: 0
+2026-06-24 10:56:10 INFO  16680  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1225:GetDeviceSN In, DeviceID:1
+2026-06-24 10:56:11 INFO  16680  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1245:GetDeviceSN Out result: 0
+2026-06-24 10:56:11 INFO  16680  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1225:GetDeviceSN In, DeviceID:1
+2026-06-24 10:56:11 INFO  16680  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1245:GetDeviceSN Out result: 0
+2026-06-24 10:56:11 INFO  16680  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:546:SetFrameResolution In, DeviceID:1 ,frameType:2 ,resolution:1
+2026-06-24 10:56:11 INFO  16680  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:566:SetFrameResolution Out result: 0
+2026-06-24 10:56:11 INFO  16680  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:468:StartStreaming In, DeviceID:1 ,streamType:4
+2026-06-24 10:56:13 ERROR 5836   E:\code\SYSDK4\SynexensSDK\src\communicate\sonix\SYCommunicateSonix.cpp:57:SonixCam_MulSensorRegisterCustomRead error:1,SonixIndex:0,Ctrl:
+2026-06-24 10:56:18 INFO  16680  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:488:StartStreaming Out result: 0
+2026-06-24 10:56:18 INFO  16680  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1459:GetIntric In, DeviceID:1 ,resolution:1
+2026-06-24 10:56:18 INFO  16680  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1479:GetIntric Out result: 0
+2026-06-24 10:56:55 INFO  16680  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:494:StopStreaming In, DeviceID:1
+2026-06-24 10:56:55 INFO  16680  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:514:StopStreaming Out result: 0
+2026-06-24 10:56:55 INFO  16680  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:318:CloseDevice In, DeviceID:1
+2026-06-24 10:56:55 INFO  5836   E:\code\SYSDK4\SynexensSDK\src\device\CS20\SYDeviceCS20.cpp:928:PBDownloadThread out
+2026-06-24 10:56:55 INFO  16680  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:346:CloseDevice Out result: 0
+/***********************************
+App clean up.
+************************************/
+/***********************************
+App start up.
+************************************/
+2026-06-24 11:09:37 INFO  12868  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:197:FindDevice In
+2026-06-24 11:09:37 ERROR 12868  E:\code\SYSDK4\SynexensSDK\src\communicate\UVC\SYCommunicateManagerImplUVC.cpp:114:uvc_find_device error:-4
+2026-06-24 11:09:37 DEBUG 12868  E:\code\SYSDK4\SynexensSDK\src\communicate\TCP\SYCommunicateManagerImplTCP.cpp:295:UDP Find local IP:70.12.103.64
+2026-06-24 11:09:37 DEBUG 12868  E:\code\SYSDK4\SynexensSDK\src\communicate\TCP\SYCommunicateManagerImplTCP.cpp:295:UDP Find local IP:172.24.128.1
+2026-06-24 11:09:38 INFO  12868  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:230:FindDevice Out result: 0
+2026-06-24 11:09:38 INFO  12868  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:197:FindDevice In
+2026-06-24 11:09:38 INFO  12868  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:230:FindDevice Out result: 0
+2026-06-24 11:09:38 INFO  12868  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:236:OpenDevice In, DeviceID:1 ,DeviceType:3
+2026-06-24 11:09:39 INFO  12868  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:312:OpenDevice Out result: 0
+2026-06-24 11:09:39 INFO  12868  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1225:GetDeviceSN In, DeviceID:1
+2026-06-24 11:09:40 INFO  12868  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1245:GetDeviceSN Out result: 0
+2026-06-24 11:09:40 INFO  12868  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1225:GetDeviceSN In, DeviceID:1
+2026-06-24 11:09:40 INFO  12868  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1245:GetDeviceSN Out result: 0
+2026-06-24 11:09:40 INFO  12868  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:546:SetFrameResolution In, DeviceID:1 ,frameType:2 ,resolution:1
+2026-06-24 11:09:40 INFO  12868  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:566:SetFrameResolution Out result: 0
+2026-06-24 11:09:40 INFO  12868  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:468:StartStreaming In, DeviceID:1 ,streamType:4
+2026-06-24 11:09:42 ERROR 19452  E:\code\SYSDK4\SynexensSDK\src\communicate\sonix\SYCommunicateSonix.cpp:57:SonixCam_MulSensorRegisterCustomRead error:1,SonixIndex:0,Ctrl:
+2026-06-24 11:09:46 INFO  12868  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:488:StartStreaming Out result: 0
+2026-06-24 11:09:46 INFO  12868  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1459:GetIntric In, DeviceID:1 ,resolution:1
+2026-06-24 11:09:46 INFO  12868  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1479:GetIntric Out result: 0
+2026-06-24 11:12:01 INFO  12868  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:494:StopStreaming In, DeviceID:1
+2026-06-24 11:12:01 INFO  12868  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:514:StopStreaming Out result: 0
+2026-06-24 11:12:01 INFO  12868  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:318:CloseDevice In, DeviceID:1
+2026-06-24 11:12:01 INFO  19452  E:\code\SYSDK4\SynexensSDK\src\device\CS20\SYDeviceCS20.cpp:928:PBDownloadThread out
+2026-06-24 11:12:01 INFO  12868  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:346:CloseDevice Out result: 0
+/***********************************
+App clean up.
+************************************/
+/***********************************
+App start up.
+************************************/
+2026-06-24 11:17:32 INFO  17316  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:197:FindDevice In
+2026-06-24 11:17:32 ERROR 17316  E:\code\SYSDK4\SynexensSDK\src\communicate\UVC\SYCommunicateManagerImplUVC.cpp:114:uvc_find_device error:-4
+2026-06-24 11:17:32 DEBUG 17316  E:\code\SYSDK4\SynexensSDK\src\communicate\TCP\SYCommunicateManagerImplTCP.cpp:295:UDP Find local IP:70.12.103.64
+2026-06-24 11:17:33 DEBUG 17316  E:\code\SYSDK4\SynexensSDK\src\communicate\TCP\SYCommunicateManagerImplTCP.cpp:295:UDP Find local IP:172.24.128.1
+2026-06-24 11:17:34 INFO  17316  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:230:FindDevice Out result: 0
+2026-06-24 11:17:34 INFO  17316  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:197:FindDevice In
+2026-06-24 11:17:34 INFO  17316  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:230:FindDevice Out result: 0
+2026-06-24 11:17:34 INFO  17316  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:236:OpenDevice In, DeviceID:1 ,DeviceType:3
+2026-06-24 11:17:35 INFO  17316  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:312:OpenDevice Out result: 0
+2026-06-24 11:17:35 INFO  17316  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1225:GetDeviceSN In, DeviceID:1
+2026-06-24 11:17:36 INFO  17316  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1245:GetDeviceSN Out result: 0
+2026-06-24 11:17:36 INFO  17316  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1225:GetDeviceSN In, DeviceID:1
+2026-06-24 11:17:36 INFO  17316  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1245:GetDeviceSN Out result: 0
+2026-06-24 11:17:36 INFO  17316  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:546:SetFrameResolution In, DeviceID:1 ,frameType:2 ,resolution:1
+2026-06-24 11:17:36 INFO  17316  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:566:SetFrameResolution Out result: 0
+2026-06-24 11:17:36 INFO  17316  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:468:StartStreaming In, DeviceID:1 ,streamType:4
+2026-06-24 11:17:38 ERROR 8124   E:\code\SYSDK4\SynexensSDK\src\communicate\sonix\SYCommunicateSonix.cpp:57:SonixCam_MulSensorRegisterCustomRead error:1,SonixIndex:0,Ctrl:
+2026-06-24 11:17:41 INFO  17316  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:488:StartStreaming Out result: 0
+2026-06-24 11:17:41 INFO  17316  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1459:GetIntric In, DeviceID:1 ,resolution:1
+2026-06-24 11:17:41 INFO  17316  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1479:GetIntric Out result: 0
+2026-06-24 11:19:07 INFO  17316  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:494:StopStreaming In, DeviceID:1
+2026-06-24 11:19:07 INFO  17316  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:514:StopStreaming Out result: 0
+2026-06-24 11:19:07 INFO  17316  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:318:CloseDevice In, DeviceID:1
+2026-06-24 11:19:08 INFO  8124   E:\code\SYSDK4\SynexensSDK\src\device\CS20\SYDeviceCS20.cpp:928:PBDownloadThread out
+2026-06-24 11:19:08 INFO  17316  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:346:CloseDevice Out result: 0
+/***********************************
+App clean up.
+************************************/
+/***********************************
+App start up.
+************************************/
+2026-06-24 11:36:49 INFO  19840  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:197:FindDevice In
+2026-06-24 11:36:49 ERROR 19840  E:\code\SYSDK4\SynexensSDK\src\communicate\UVC\SYCommunicateManagerImplUVC.cpp:114:uvc_find_device error:-4
+2026-06-24 11:36:50 DEBUG 19840  E:\code\SYSDK4\SynexensSDK\src\communicate\TCP\SYCommunicateManagerImplTCP.cpp:295:UDP Find local IP:70.12.103.64
+2026-06-24 11:36:50 DEBUG 19840  E:\code\SYSDK4\SynexensSDK\src\communicate\TCP\SYCommunicateManagerImplTCP.cpp:295:UDP Find local IP:172.24.128.1
+2026-06-24 11:36:51 INFO  19840  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:230:FindDevice Out result: 0
+2026-06-24 11:36:51 INFO  19840  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:197:FindDevice In
+2026-06-24 11:36:51 INFO  19840  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:230:FindDevice Out result: 0
+2026-06-24 11:36:51 INFO  19840  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:236:OpenDevice In, DeviceID:1 ,DeviceType:3
+2026-06-24 11:36:52 INFO  19840  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:312:OpenDevice Out result: 0
+2026-06-24 11:36:52 INFO  19840  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1225:GetDeviceSN In, DeviceID:1
+2026-06-24 11:36:53 INFO  19840  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1245:GetDeviceSN Out result: 0
+2026-06-24 11:36:53 INFO  19840  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1225:GetDeviceSN In, DeviceID:1
+2026-06-24 11:36:53 INFO  19840  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1245:GetDeviceSN Out result: 0
+2026-06-24 11:36:53 INFO  19840  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:546:SetFrameResolution In, DeviceID:1 ,frameType:2 ,resolution:1
+2026-06-24 11:36:53 INFO  19840  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:566:SetFrameResolution Out result: 0
+2026-06-24 11:36:53 INFO  19840  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:468:StartStreaming In, DeviceID:1 ,streamType:4
+2026-06-24 11:36:55 ERROR 18388  E:\code\SYSDK4\SynexensSDK\src\communicate\sonix\SYCommunicateSonix.cpp:57:SonixCam_MulSensorRegisterCustomRead error:1,SonixIndex:0,Ctrl:
+2026-06-24 11:36:58 INFO  19840  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:488:StartStreaming Out result: 0
+2026-06-24 11:36:58 INFO  19840  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1459:GetIntric In, DeviceID:1 ,resolution:1
+2026-06-24 11:36:58 INFO  19840  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1479:GetIntric Out result: 0
+2026-06-24 11:38:03 INFO  19840  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:494:StopStreaming In, DeviceID:1
+2026-06-24 11:38:03 INFO  19840  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:514:StopStreaming Out result: 0
+2026-06-24 11:38:03 INFO  19840  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:318:CloseDevice In, DeviceID:1
+2026-06-24 11:38:03 INFO  18388  E:\code\SYSDK4\SynexensSDK\src\device\CS20\SYDeviceCS20.cpp:928:PBDownloadThread out
+2026-06-24 11:38:03 INFO  19840  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:346:CloseDevice Out result: 0
+/***********************************
+App clean up.
+************************************/
+/***********************************
+App start up.
+************************************/
+2026-06-24 11:38:25 INFO  20276  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:197:FindDevice In
+2026-06-24 11:38:25 ERROR 20276  E:\code\SYSDK4\SynexensSDK\src\communicate\UVC\SYCommunicateManagerImplUVC.cpp:114:uvc_find_device error:-4
+2026-06-24 11:38:25 DEBUG 20276  E:\code\SYSDK4\SynexensSDK\src\communicate\TCP\SYCommunicateManagerImplTCP.cpp:295:UDP Find local IP:70.12.103.64
+2026-06-24 11:38:25 DEBUG 20276  E:\code\SYSDK4\SynexensSDK\src\communicate\TCP\SYCommunicateManagerImplTCP.cpp:295:UDP Find local IP:172.24.128.1
+2026-06-24 11:38:26 INFO  20276  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:230:FindDevice Out result: 0
+2026-06-24 11:38:26 INFO  20276  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:197:FindDevice In
+2026-06-24 11:38:26 INFO  20276  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:230:FindDevice Out result: 0
+2026-06-24 11:38:26 INFO  20276  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:236:OpenDevice In, DeviceID:1 ,DeviceType:3
+2026-06-24 11:38:27 INFO  20276  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:312:OpenDevice Out result: 0
+2026-06-24 11:38:27 INFO  20276  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1225:GetDeviceSN In, DeviceID:1
+2026-06-24 11:38:28 INFO  20276  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1245:GetDeviceSN Out result: 0
+2026-06-24 11:38:28 INFO  20276  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1225:GetDeviceSN In, DeviceID:1
+2026-06-24 11:38:28 INFO  20276  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1245:GetDeviceSN Out result: 0
+2026-06-24 11:38:28 INFO  20276  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:546:SetFrameResolution In, DeviceID:1 ,frameType:2 ,resolution:1
+2026-06-24 11:38:28 INFO  20276  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:566:SetFrameResolution Out result: 0
+2026-06-24 11:38:28 INFO  20276  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:468:StartStreaming In, DeviceID:1 ,streamType:4
+2026-06-24 11:38:30 ERROR 4076   E:\code\SYSDK4\SynexensSDK\src\communicate\sonix\SYCommunicateSonix.cpp:57:SonixCam_MulSensorRegisterCustomRead error:1,SonixIndex:0,Ctrl:
+2026-06-24 11:38:34 INFO  20276  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:488:StartStreaming Out result: 0
+2026-06-24 11:38:34 INFO  20276  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1459:GetIntric In, DeviceID:1 ,resolution:1
+2026-06-24 11:38:34 INFO  20276  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1479:GetIntric Out result: 0
+2026-06-24 11:43:14 INFO  20276  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:494:StopStreaming In, DeviceID:1
+2026-06-24 11:43:14 INFO  20276  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:514:StopStreaming Out result: 0
+2026-06-24 11:43:14 INFO  20276  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:318:CloseDevice In, DeviceID:1
+2026-06-24 11:43:14 INFO  4076   E:\code\SYSDK4\SynexensSDK\src\device\CS20\SYDeviceCS20.cpp:928:PBDownloadThread out
+2026-06-24 11:43:14 INFO  20276  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:346:CloseDevice Out result: 0
+/***********************************
+App clean up.
+************************************/
+/***********************************
+App start up.
+************************************/
+2026-06-24 11:46:58 INFO  5064   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:197:FindDevice In
+2026-06-24 11:46:58 ERROR 5064   E:\code\SYSDK4\SynexensSDK\src\communicate\UVC\SYCommunicateManagerImplUVC.cpp:114:uvc_find_device error:-4
+2026-06-24 11:46:58 DEBUG 5064   E:\code\SYSDK4\SynexensSDK\src\communicate\TCP\SYCommunicateManagerImplTCP.cpp:295:UDP Find local IP:70.12.103.64
+2026-06-24 11:46:58 DEBUG 5064   E:\code\SYSDK4\SynexensSDK\src\communicate\TCP\SYCommunicateManagerImplTCP.cpp:295:UDP Find local IP:172.24.128.1
+2026-06-24 11:46:59 INFO  5064   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:230:FindDevice Out result: 0
+2026-06-24 11:46:59 INFO  5064   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:197:FindDevice In
+2026-06-24 11:46:59 INFO  5064   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:230:FindDevice Out result: 0
+2026-06-24 11:46:59 INFO  5064   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:236:OpenDevice In, DeviceID:1 ,DeviceType:3
+2026-06-24 11:47:00 INFO  5064   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:312:OpenDevice Out result: 0
+2026-06-24 11:47:00 INFO  5064   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1225:GetDeviceSN In, DeviceID:1
+2026-06-24 11:47:01 INFO  5064   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1245:GetDeviceSN Out result: 0
+2026-06-24 11:47:01 INFO  5064   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1225:GetDeviceSN In, DeviceID:1
+2026-06-24 11:47:01 INFO  5064   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1245:GetDeviceSN Out result: 0
+2026-06-24 11:47:01 INFO  5064   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:546:SetFrameResolution In, DeviceID:1 ,frameType:2 ,resolution:1
+2026-06-24 11:47:01 INFO  5064   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:566:SetFrameResolution Out result: 0
+2026-06-24 11:47:01 INFO  5064   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:468:StartStreaming In, DeviceID:1 ,streamType:4
+2026-06-24 11:47:04 ERROR 2000   E:\code\SYSDK4\SynexensSDK\src\communicate\sonix\SYCommunicateSonix.cpp:57:SonixCam_MulSensorRegisterCustomRead error:1,SonixIndex:0,Ctrl:
+2026-06-24 11:47:08 INFO  5064   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:488:StartStreaming Out result: 0
+2026-06-24 11:47:08 INFO  5064   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1459:GetIntric In, DeviceID:1 ,resolution:1
+2026-06-24 11:47:08 INFO  5064   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1479:GetIntric Out result: 0
+2026-06-24 11:48:52 INFO  5064   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:494:StopStreaming In, DeviceID:1
+2026-06-24 11:48:52 INFO  5064   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:514:StopStreaming Out result: 0
+2026-06-24 11:48:52 INFO  5064   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:318:CloseDevice In, DeviceID:1
+2026-06-24 11:48:52 INFO  2000   E:\code\SYSDK4\SynexensSDK\src\device\CS20\SYDeviceCS20.cpp:928:PBDownloadThread out
+2026-06-24 11:48:52 INFO  5064   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:346:CloseDevice Out result: 0
+/***********************************
+App clean up.
+************************************/
+/***********************************
+App start up.
+************************************/
+2026-06-24 11:52:33 INFO  19484  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:197:FindDevice In
+2026-06-24 11:52:33 ERROR 19484  E:\code\SYSDK4\SynexensSDK\src\communicate\UVC\SYCommunicateManagerImplUVC.cpp:114:uvc_find_device error:-4
+2026-06-24 11:52:33 DEBUG 19484  E:\code\SYSDK4\SynexensSDK\src\communicate\TCP\SYCommunicateManagerImplTCP.cpp:295:UDP Find local IP:70.12.103.64
+2026-06-24 11:52:34 DEBUG 19484  E:\code\SYSDK4\SynexensSDK\src\communicate\TCP\SYCommunicateManagerImplTCP.cpp:295:UDP Find local IP:172.24.128.1
+2026-06-24 11:52:34 INFO  19484  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:230:FindDevice Out result: 0
+2026-06-24 11:52:34 INFO  19484  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:197:FindDevice In
+2026-06-24 11:52:34 INFO  19484  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:230:FindDevice Out result: 0
+2026-06-24 11:52:34 INFO  19484  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:236:OpenDevice In, DeviceID:1 ,DeviceType:3
+2026-06-24 11:52:36 INFO  19484  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:312:OpenDevice Out result: 0
+2026-06-24 11:52:36 INFO  19484  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1225:GetDeviceSN In, DeviceID:1
+2026-06-24 11:52:36 INFO  19484  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1245:GetDeviceSN Out result: 0
+2026-06-24 11:52:36 INFO  19484  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1225:GetDeviceSN In, DeviceID:1
+2026-06-24 11:52:36 INFO  19484  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1245:GetDeviceSN Out result: 0
+2026-06-24 11:52:36 INFO  19484  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:546:SetFrameResolution In, DeviceID:1 ,frameType:2 ,resolution:1
+2026-06-24 11:52:36 INFO  19484  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:566:SetFrameResolution Out result: 0
+2026-06-24 11:52:36 INFO  19484  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:468:StartStreaming In, DeviceID:1 ,streamType:4
+2026-06-24 11:52:39 ERROR 19744  E:\code\SYSDK4\SynexensSDK\src\communicate\sonix\SYCommunicateSonix.cpp:57:SonixCam_MulSensorRegisterCustomRead error:1,SonixIndex:0,Ctrl:
+2026-06-24 11:52:43 INFO  19484  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:488:StartStreaming Out result: 0
+2026-06-24 11:52:43 INFO  19484  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1459:GetIntric In, DeviceID:1 ,resolution:1
+2026-06-24 11:52:43 INFO  19484  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1479:GetIntric Out result: 0
+2026-06-24 11:54:30 INFO  19484  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:494:StopStreaming In, DeviceID:1
+2026-06-24 11:54:30 INFO  19484  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:514:StopStreaming Out result: 0
+2026-06-24 11:54:30 INFO  19484  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:318:CloseDevice In, DeviceID:1
+2026-06-24 11:54:30 INFO  19744  E:\code\SYSDK4\SynexensSDK\src\device\CS20\SYDeviceCS20.cpp:928:PBDownloadThread out
+2026-06-24 11:54:30 INFO  19484  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:346:CloseDevice Out result: 0
+/***********************************
+App clean up.
+************************************/
+/***********************************
+App start up.
+************************************/
+2026-06-24 13:38:34 INFO  9408   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:197:FindDevice In
+2026-06-24 13:38:34 ERROR 9408   E:\code\SYSDK4\SynexensSDK\src\communicate\UVC\SYCommunicateManagerImplUVC.cpp:114:uvc_find_device error:-4
+2026-06-24 13:38:34 DEBUG 9408   E:\code\SYSDK4\SynexensSDK\src\communicate\TCP\SYCommunicateManagerImplTCP.cpp:295:UDP Find local IP:70.12.103.64
+2026-06-24 13:38:34 DEBUG 9408   E:\code\SYSDK4\SynexensSDK\src\communicate\TCP\SYCommunicateManagerImplTCP.cpp:295:UDP Find local IP:172.24.128.1
+2026-06-24 13:38:35 INFO  9408   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:230:FindDevice Out result: 0
+2026-06-24 13:38:35 INFO  9408   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:197:FindDevice In
+2026-06-24 13:38:35 INFO  9408   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:230:FindDevice Out result: 0
+2026-06-24 13:38:35 INFO  9408   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:236:OpenDevice In, DeviceID:1 ,DeviceType:3
+2026-06-24 13:38:37 INFO  9408   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:312:OpenDevice Out result: 0
+2026-06-24 13:38:37 INFO  9408   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1225:GetDeviceSN In, DeviceID:1
+2026-06-24 13:38:38 INFO  9408   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1245:GetDeviceSN Out result: 0
+2026-06-24 13:38:38 INFO  9408   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1225:GetDeviceSN In, DeviceID:1
+2026-06-24 13:38:38 INFO  9408   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1245:GetDeviceSN Out result: 0
+2026-06-24 13:38:38 INFO  9408   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:546:SetFrameResolution In, DeviceID:1 ,frameType:2 ,resolution:1
+2026-06-24 13:38:38 INFO  9408   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:566:SetFrameResolution Out result: 0
+2026-06-24 13:38:38 INFO  9408   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:468:StartStreaming In, DeviceID:1 ,streamType:4
+2026-06-24 13:38:41 ERROR 18388  E:\code\SYSDK4\SynexensSDK\src\communicate\sonix\SYCommunicateSonix.cpp:57:SonixCam_MulSensorRegisterCustomRead error:1,SonixIndex:0,Ctrl:
+2026-06-24 13:38:46 INFO  9408   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:488:StartStreaming Out result: 0
+2026-06-24 13:38:46 INFO  9408   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1459:GetIntric In, DeviceID:1 ,resolution:1
+2026-06-24 13:38:46 INFO  9408   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1479:GetIntric Out result: 0
+2026-06-24 13:39:25 INFO  9408   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:494:StopStreaming In, DeviceID:1
+2026-06-24 13:39:25 INFO  9408   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:514:StopStreaming Out result: 0
+2026-06-24 13:39:25 INFO  9408   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:318:CloseDevice In, DeviceID:1
+2026-06-24 13:39:25 INFO  18388  E:\code\SYSDK4\SynexensSDK\src\device\CS20\SYDeviceCS20.cpp:928:PBDownloadThread out
+2026-06-24 13:39:25 INFO  9408   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:346:CloseDevice Out result: 0
+/***********************************
+App clean up.
+************************************/
+/***********************************
+App start up.
+************************************/
+2026-06-24 13:51:36 INFO  6112   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:197:FindDevice In
+2026-06-24 13:51:36 ERROR 6112   E:\code\SYSDK4\SynexensSDK\src\communicate\UVC\SYCommunicateManagerImplUVC.cpp:114:uvc_find_device error:-4
+2026-06-24 13:51:36 DEBUG 6112   E:\code\SYSDK4\SynexensSDK\src\communicate\TCP\SYCommunicateManagerImplTCP.cpp:295:UDP Find local IP:70.12.103.64
+2026-06-24 13:51:36 DEBUG 6112   E:\code\SYSDK4\SynexensSDK\src\communicate\TCP\SYCommunicateManagerImplTCP.cpp:295:UDP Find local IP:172.24.128.1
+2026-06-24 13:51:37 INFO  6112   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:230:FindDevice Out result: 0
+2026-06-24 13:51:37 INFO  6112   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:197:FindDevice In
+2026-06-24 13:51:37 INFO  6112   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:230:FindDevice Out result: 0
+2026-06-24 13:51:37 INFO  6112   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:236:OpenDevice In, DeviceID:1 ,DeviceType:3
+2026-06-24 13:51:38 INFO  6112   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:312:OpenDevice Out result: 0
+2026-06-24 13:51:38 INFO  6112   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1225:GetDeviceSN In, DeviceID:1
+2026-06-24 13:51:39 INFO  6112   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1245:GetDeviceSN Out result: 0
+2026-06-24 13:51:39 INFO  6112   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1225:GetDeviceSN In, DeviceID:1
+2026-06-24 13:51:39 INFO  6112   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1245:GetDeviceSN Out result: 0
+2026-06-24 13:51:39 INFO  6112   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:546:SetFrameResolution In, DeviceID:1 ,frameType:2 ,resolution:1
+2026-06-24 13:51:39 INFO  6112   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:566:SetFrameResolution Out result: 0
+2026-06-24 13:51:39 INFO  6112   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:468:StartStreaming In, DeviceID:1 ,streamType:4
+2026-06-24 13:51:41 ERROR 24200  E:\code\SYSDK4\SynexensSDK\src\communicate\sonix\SYCommunicateSonix.cpp:57:SonixCam_MulSensorRegisterCustomRead error:1,SonixIndex:0,Ctrl:
+2026-06-24 13:51:45 INFO  6112   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:488:StartStreaming Out result: 0
+2026-06-24 13:51:45 INFO  6112   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1459:GetIntric In, DeviceID:1 ,resolution:1
+2026-06-24 13:51:45 INFO  6112   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1479:GetIntric Out result: 0
+2026-06-24 13:53:36 INFO  6112   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:494:StopStreaming In, DeviceID:1
+2026-06-24 13:53:36 INFO  6112   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:514:StopStreaming Out result: 0
+2026-06-24 13:53:36 INFO  6112   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:318:CloseDevice In, DeviceID:1
+2026-06-24 13:53:36 INFO  24200  E:\code\SYSDK4\SynexensSDK\src\device\CS20\SYDeviceCS20.cpp:928:PBDownloadThread out
+2026-06-24 13:53:36 INFO  6112   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:346:CloseDevice Out result: 0
+/***********************************
+App clean up.
+************************************/
+/***********************************
+App start up.
+************************************/
+2026-06-24 13:59:28 INFO  22688  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:197:FindDevice In
+2026-06-24 13:59:28 ERROR 22688  E:\code\SYSDK4\SynexensSDK\src\communicate\UVC\SYCommunicateManagerImplUVC.cpp:114:uvc_find_device error:-4
+2026-06-24 13:59:28 DEBUG 22688  E:\code\SYSDK4\SynexensSDK\src\communicate\TCP\SYCommunicateManagerImplTCP.cpp:295:UDP Find local IP:70.12.103.64
+2026-06-24 13:59:29 DEBUG 22688  E:\code\SYSDK4\SynexensSDK\src\communicate\TCP\SYCommunicateManagerImplTCP.cpp:295:UDP Find local IP:172.24.128.1
+2026-06-24 13:59:30 INFO  22688  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:230:FindDevice Out result: 0
+2026-06-24 13:59:30 INFO  22688  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:197:FindDevice In
+2026-06-24 13:59:30 INFO  22688  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:230:FindDevice Out result: 0
+2026-06-24 13:59:30 INFO  22688  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:236:OpenDevice In, DeviceID:1 ,DeviceType:3
+2026-06-24 13:59:31 INFO  22688  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:312:OpenDevice Out result: 0
+2026-06-24 13:59:31 INFO  22688  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1225:GetDeviceSN In, DeviceID:1
+2026-06-24 13:59:32 INFO  22688  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1245:GetDeviceSN Out result: 0
+2026-06-24 13:59:32 INFO  22688  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1225:GetDeviceSN In, DeviceID:1
+2026-06-24 13:59:32 INFO  22688  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1245:GetDeviceSN Out result: 0
+2026-06-24 13:59:32 INFO  22688  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:546:SetFrameResolution In, DeviceID:1 ,frameType:2 ,resolution:1
+2026-06-24 13:59:32 INFO  22688  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:566:SetFrameResolution Out result: 0
+2026-06-24 13:59:32 INFO  22688  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:468:StartStreaming In, DeviceID:1 ,streamType:4
+2026-06-24 13:59:35 ERROR 3956   E:\code\SYSDK4\SynexensSDK\src\communicate\sonix\SYCommunicateSonix.cpp:57:SonixCam_MulSensorRegisterCustomRead error:1,SonixIndex:0,Ctrl:
+2026-06-24 13:59:39 INFO  22688  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:488:StartStreaming Out result: 0
+2026-06-24 13:59:39 INFO  22688  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1459:GetIntric In, DeviceID:1 ,resolution:1
+2026-06-24 13:59:39 INFO  22688  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1479:GetIntric Out result: 0
+2026-06-24 13:59:54 INFO  22688  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:494:StopStreaming In, DeviceID:1
+2026-06-24 13:59:54 INFO  22688  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:514:StopStreaming Out result: 0
+2026-06-24 13:59:54 INFO  22688  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:318:CloseDevice In, DeviceID:1
+2026-06-24 13:59:54 INFO  3956   E:\code\SYSDK4\SynexensSDK\src\device\CS20\SYDeviceCS20.cpp:928:PBDownloadThread out
+2026-06-24 13:59:54 INFO  22688  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:346:CloseDevice Out result: 0
+/***********************************
+App clean up.
+************************************/
+/***********************************
+App start up.
+************************************/
+2026-06-24 14:02:19 INFO  23820  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:197:FindDevice In
+2026-06-24 14:02:19 ERROR 23820  E:\code\SYSDK4\SynexensSDK\src\communicate\UVC\SYCommunicateManagerImplUVC.cpp:114:uvc_find_device error:-4
+2026-06-24 14:02:19 DEBUG 23820  E:\code\SYSDK4\SynexensSDK\src\communicate\TCP\SYCommunicateManagerImplTCP.cpp:295:UDP Find local IP:70.12.103.64
+2026-06-24 14:02:20 DEBUG 23820  E:\code\SYSDK4\SynexensSDK\src\communicate\TCP\SYCommunicateManagerImplTCP.cpp:295:UDP Find local IP:172.24.128.1
+2026-06-24 14:02:20 INFO  23820  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:230:FindDevice Out result: 0
+2026-06-24 14:02:20 INFO  23820  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:197:FindDevice In
+2026-06-24 14:02:20 INFO  23820  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:230:FindDevice Out result: 0
+2026-06-24 14:02:20 INFO  23820  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:236:OpenDevice In, DeviceID:1 ,DeviceType:3
+2026-06-24 14:02:22 INFO  23820  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:312:OpenDevice Out result: 0
+2026-06-24 14:02:22 INFO  23820  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1225:GetDeviceSN In, DeviceID:1
+2026-06-24 14:02:23 INFO  23820  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1245:GetDeviceSN Out result: 0
+2026-06-24 14:02:23 INFO  23820  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1225:GetDeviceSN In, DeviceID:1
+2026-06-24 14:02:23 INFO  23820  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1245:GetDeviceSN Out result: 0
+2026-06-24 14:02:23 INFO  23820  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:546:SetFrameResolution In, DeviceID:1 ,frameType:2 ,resolution:1
+2026-06-24 14:02:23 INFO  23820  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:566:SetFrameResolution Out result: 0
+2026-06-24 14:02:23 INFO  23820  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:468:StartStreaming In, DeviceID:1 ,streamType:4
+2026-06-24 14:02:25 ERROR 24700  E:\code\SYSDK4\SynexensSDK\src\communicate\sonix\SYCommunicateSonix.cpp:57:SonixCam_MulSensorRegisterCustomRead error:1,SonixIndex:0,Ctrl:
+2026-06-24 14:02:30 INFO  23820  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:488:StartStreaming Out result: 0
+2026-06-24 14:02:30 INFO  23820  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1459:GetIntric In, DeviceID:1 ,resolution:1
+2026-06-24 14:02:30 INFO  23820  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1479:GetIntric Out result: 0
+2026-06-24 14:05:34 INFO  23820  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:494:StopStreaming In, DeviceID:1
+2026-06-24 14:05:34 INFO  23820  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:514:StopStreaming Out result: 0
+2026-06-24 14:05:34 INFO  23820  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:318:CloseDevice In, DeviceID:1
+2026-06-24 14:05:34 INFO  24700  E:\code\SYSDK4\SynexensSDK\src\device\CS20\SYDeviceCS20.cpp:928:PBDownloadThread out
+2026-06-24 14:05:34 INFO  23820  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:346:CloseDevice Out result: 0
+/***********************************
+App clean up.
+************************************/
+/***********************************
+App start up.
+************************************/
+2026-06-24 14:05:39 INFO  22772  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:197:FindDevice In
+2026-06-24 14:05:39 ERROR 22772  E:\code\SYSDK4\SynexensSDK\src\communicate\UVC\SYCommunicateManagerImplUVC.cpp:114:uvc_find_device error:-4
+2026-06-24 14:05:39 DEBUG 22772  E:\code\SYSDK4\SynexensSDK\src\communicate\TCP\SYCommunicateManagerImplTCP.cpp:295:UDP Find local IP:70.12.103.64
+2026-06-24 14:05:40 DEBUG 22772  E:\code\SYSDK4\SynexensSDK\src\communicate\TCP\SYCommunicateManagerImplTCP.cpp:295:UDP Find local IP:172.24.128.1
+2026-06-24 14:05:41 INFO  22772  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:230:FindDevice Out result: 0
+2026-06-24 14:05:41 INFO  22772  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:197:FindDevice In
+2026-06-24 14:05:41 INFO  22772  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:230:FindDevice Out result: 0
+2026-06-24 14:05:41 INFO  22772  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:236:OpenDevice In, DeviceID:1 ,DeviceType:3
+2026-06-24 14:05:42 INFO  22772  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:312:OpenDevice Out result: 0
+2026-06-24 14:05:42 INFO  22772  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1225:GetDeviceSN In, DeviceID:1
+2026-06-24 14:05:43 INFO  22772  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1245:GetDeviceSN Out result: 0
+2026-06-24 14:05:43 INFO  22772  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1225:GetDeviceSN In, DeviceID:1
+2026-06-24 14:05:43 INFO  22772  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1245:GetDeviceSN Out result: 0
+2026-06-24 14:05:43 INFO  22772  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:546:SetFrameResolution In, DeviceID:1 ,frameType:2 ,resolution:1
+2026-06-24 14:05:43 INFO  22772  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:566:SetFrameResolution Out result: 0
+2026-06-24 14:05:43 INFO  22772  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:468:StartStreaming In, DeviceID:1 ,streamType:4
+2026-06-24 14:05:45 ERROR 8264   E:\code\SYSDK4\SynexensSDK\src\communicate\sonix\SYCommunicateSonix.cpp:57:SonixCam_MulSensorRegisterCustomRead error:1,SonixIndex:0,Ctrl:
+2026-06-24 14:05:49 INFO  22772  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:488:StartStreaming Out result: 0
+2026-06-24 14:05:49 INFO  22772  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1459:GetIntric In, DeviceID:1 ,resolution:1
+2026-06-24 14:05:49 INFO  22772  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1479:GetIntric Out result: 0
+2026-06-24 14:06:49 INFO  22772  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:494:StopStreaming In, DeviceID:1
+2026-06-24 14:06:49 INFO  22772  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:514:StopStreaming Out result: 0
+2026-06-24 14:06:49 INFO  22772  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:318:CloseDevice In, DeviceID:1
+2026-06-24 14:06:49 INFO  8264   E:\code\SYSDK4\SynexensSDK\src\device\CS20\SYDeviceCS20.cpp:928:PBDownloadThread out
+2026-06-24 14:06:49 INFO  22772  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:346:CloseDevice Out result: 0
+/***********************************
+App clean up.
+************************************/
+/***********************************
+App start up.
+************************************/
+2026-06-24 14:09:32 INFO  7544   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:197:FindDevice In
+2026-06-24 14:09:32 ERROR 7544   E:\code\SYSDK4\SynexensSDK\src\communicate\UVC\SYCommunicateManagerImplUVC.cpp:114:uvc_find_device error:-4
+2026-06-24 14:09:32 DEBUG 7544   E:\code\SYSDK4\SynexensSDK\src\communicate\TCP\SYCommunicateManagerImplTCP.cpp:295:UDP Find local IP:70.12.103.64
+2026-06-24 14:09:32 DEBUG 7544   E:\code\SYSDK4\SynexensSDK\src\communicate\TCP\SYCommunicateManagerImplTCP.cpp:295:UDP Find local IP:172.24.128.1
+2026-06-24 14:09:33 INFO  7544   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:230:FindDevice Out result: 0
+2026-06-24 14:09:33 INFO  7544   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:197:FindDevice In
+2026-06-24 14:09:33 INFO  7544   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:230:FindDevice Out result: 0
+2026-06-24 14:09:33 INFO  7544   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:236:OpenDevice In, DeviceID:1 ,DeviceType:3
+2026-06-24 14:09:34 INFO  7544   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:312:OpenDevice Out result: 0
+2026-06-24 14:09:34 INFO  7544   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1225:GetDeviceSN In, DeviceID:1
+2026-06-24 14:09:35 INFO  7544   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1245:GetDeviceSN Out result: 0
+2026-06-24 14:09:35 INFO  7544   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1225:GetDeviceSN In, DeviceID:1
+2026-06-24 14:09:35 INFO  7544   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1245:GetDeviceSN Out result: 0
+2026-06-24 14:09:35 INFO  7544   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:546:SetFrameResolution In, DeviceID:1 ,frameType:2 ,resolution:1
+2026-06-24 14:09:35 INFO  7544   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:566:SetFrameResolution Out result: 0
+2026-06-24 14:09:35 INFO  7544   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:468:StartStreaming In, DeviceID:1 ,streamType:4
+2026-06-24 14:09:37 ERROR 23072  E:\code\SYSDK4\SynexensSDK\src\communicate\sonix\SYCommunicateSonix.cpp:57:SonixCam_MulSensorRegisterCustomRead error:1,SonixIndex:0,Ctrl:
+2026-06-24 14:09:41 INFO  7544   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:488:StartStreaming Out result: 0
+2026-06-24 14:09:41 INFO  7544   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1459:GetIntric In, DeviceID:1 ,resolution:1
+2026-06-24 14:09:41 INFO  7544   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1479:GetIntric Out result: 0
+2026-06-24 14:11:41 INFO  7544   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:494:StopStreaming In, DeviceID:1
+2026-06-24 14:11:41 INFO  7544   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:514:StopStreaming Out result: 0
+2026-06-24 14:11:41 INFO  7544   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:318:CloseDevice In, DeviceID:1
+2026-06-24 14:11:41 INFO  23072  E:\code\SYSDK4\SynexensSDK\src\device\CS20\SYDeviceCS20.cpp:928:PBDownloadThread out
+2026-06-24 14:11:41 INFO  7544   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:346:CloseDevice Out result: 0
+/***********************************
+App clean up.
+************************************/
+/***********************************
+App start up.
+************************************/
+2026-06-24 14:15:35 INFO  17044  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:197:FindDevice In
+2026-06-24 14:15:35 ERROR 17044  E:\code\SYSDK4\SynexensSDK\src\communicate\UVC\SYCommunicateManagerImplUVC.cpp:114:uvc_find_device error:-4
+2026-06-24 14:15:35 DEBUG 17044  E:\code\SYSDK4\SynexensSDK\src\communicate\TCP\SYCommunicateManagerImplTCP.cpp:295:UDP Find local IP:70.12.103.64
+2026-06-24 14:15:36 DEBUG 17044  E:\code\SYSDK4\SynexensSDK\src\communicate\TCP\SYCommunicateManagerImplTCP.cpp:295:UDP Find local IP:172.24.128.1
+2026-06-24 14:15:36 INFO  17044  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:230:FindDevice Out result: 0
+2026-06-24 14:15:36 INFO  17044  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:197:FindDevice In
+2026-06-24 14:15:36 INFO  17044  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:230:FindDevice Out result: 0
+2026-06-24 14:15:36 INFO  17044  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:236:OpenDevice In, DeviceID:1 ,DeviceType:3
+2026-06-24 14:15:38 INFO  17044  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:312:OpenDevice Out result: 0
+2026-06-24 14:15:38 INFO  17044  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1225:GetDeviceSN In, DeviceID:1
+2026-06-24 14:15:39 INFO  17044  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1245:GetDeviceSN Out result: 0
+2026-06-24 14:15:39 INFO  17044  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1225:GetDeviceSN In, DeviceID:1
+2026-06-24 14:15:39 INFO  17044  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1245:GetDeviceSN Out result: 0
+2026-06-24 14:15:39 INFO  17044  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:546:SetFrameResolution In, DeviceID:1 ,frameType:2 ,resolution:1
+2026-06-24 14:15:39 INFO  17044  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:566:SetFrameResolution Out result: 0
+2026-06-24 14:15:39 INFO  17044  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:468:StartStreaming In, DeviceID:1 ,streamType:4
+2026-06-24 14:15:41 ERROR 22912  E:\code\SYSDK4\SynexensSDK\src\communicate\sonix\SYCommunicateSonix.cpp:57:SonixCam_MulSensorRegisterCustomRead error:1,SonixIndex:0,Ctrl:
+2026-06-24 14:15:45 INFO  17044  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:488:StartStreaming Out result: 0
+2026-06-24 14:15:45 INFO  17044  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1459:GetIntric In, DeviceID:1 ,resolution:1
+2026-06-24 14:15:45 INFO  17044  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1479:GetIntric Out result: 0
+2026-06-24 14:16:31 INFO  17044  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:494:StopStreaming In, DeviceID:1
+2026-06-24 14:16:31 INFO  17044  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:514:StopStreaming Out result: 0
+2026-06-24 14:16:31 INFO  17044  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:318:CloseDevice In, DeviceID:1
+2026-06-24 14:16:31 INFO  22912  E:\code\SYSDK4\SynexensSDK\src\device\CS20\SYDeviceCS20.cpp:928:PBDownloadThread out
+2026-06-24 14:16:31 INFO  17044  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:346:CloseDevice Out result: 0
+/***********************************
+App clean up.
+************************************/
+/***********************************
+App start up.
+************************************/
+2026-06-24 14:20:26 INFO  7792   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:197:FindDevice In
+2026-06-24 14:20:26 ERROR 7792   E:\code\SYSDK4\SynexensSDK\src\communicate\UVC\SYCommunicateManagerImplUVC.cpp:114:uvc_find_device error:-4
+2026-06-24 14:20:26 DEBUG 7792   E:\code\SYSDK4\SynexensSDK\src\communicate\TCP\SYCommunicateManagerImplTCP.cpp:295:UDP Find local IP:70.12.103.64
+2026-06-24 14:20:26 DEBUG 7792   E:\code\SYSDK4\SynexensSDK\src\communicate\TCP\SYCommunicateManagerImplTCP.cpp:295:UDP Find local IP:172.24.128.1
+2026-06-24 14:20:27 INFO  7792   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:230:FindDevice Out result: 0
+2026-06-24 14:20:27 INFO  7792   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:197:FindDevice In
+2026-06-24 14:20:27 INFO  7792   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:230:FindDevice Out result: 0
+2026-06-24 14:20:27 INFO  7792   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:236:OpenDevice In, DeviceID:1 ,DeviceType:3
+2026-06-24 14:20:28 INFO  7792   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:312:OpenDevice Out result: 0
+2026-06-24 14:20:28 INFO  7792   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1225:GetDeviceSN In, DeviceID:1
+2026-06-24 14:20:29 INFO  7792   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1245:GetDeviceSN Out result: 0
+2026-06-24 14:20:29 INFO  7792   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1225:GetDeviceSN In, DeviceID:1
+2026-06-24 14:20:29 INFO  7792   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1245:GetDeviceSN Out result: 0
+2026-06-24 14:20:29 INFO  7792   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:546:SetFrameResolution In, DeviceID:1 ,frameType:2 ,resolution:1
+2026-06-24 14:20:29 INFO  7792   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:566:SetFrameResolution Out result: 0
+2026-06-24 14:20:29 INFO  7792   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:468:StartStreaming In, DeviceID:1 ,streamType:4
+2026-06-24 14:20:31 ERROR 25168  E:\code\SYSDK4\SynexensSDK\src\communicate\sonix\SYCommunicateSonix.cpp:57:SonixCam_MulSensorRegisterCustomRead error:1,SonixIndex:0,Ctrl:
+2026-06-24 14:20:35 INFO  7792   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:488:StartStreaming Out result: 0
+2026-06-24 14:20:35 INFO  7792   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1459:GetIntric In, DeviceID:1 ,resolution:1
+2026-06-24 14:20:35 INFO  7792   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1479:GetIntric Out result: 0
+2026-06-24 14:21:54 INFO  7792   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:494:StopStreaming In, DeviceID:1
+2026-06-24 14:21:54 INFO  7792   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:514:StopStreaming Out result: 0
+2026-06-24 14:21:54 INFO  7792   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:318:CloseDevice In, DeviceID:1
+2026-06-24 14:21:54 INFO  25168  E:\code\SYSDK4\SynexensSDK\src\device\CS20\SYDeviceCS20.cpp:928:PBDownloadThread out
+2026-06-24 14:21:54 INFO  7792   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:346:CloseDevice Out result: 0
+/***********************************
+App clean up.
+************************************/
+/***********************************
+App start up.
+************************************/
+2026-06-24 14:50:26 INFO  19076  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:197:FindDevice In
+2026-06-24 14:50:26 ERROR 19076  E:\code\SYSDK4\SynexensSDK\src\communicate\UVC\SYCommunicateManagerImplUVC.cpp:114:uvc_find_device error:-4
+2026-06-24 14:50:26 DEBUG 19076  E:\code\SYSDK4\SynexensSDK\src\communicate\TCP\SYCommunicateManagerImplTCP.cpp:295:UDP Find local IP:70.12.103.64
+2026-06-24 14:50:27 DEBUG 19076  E:\code\SYSDK4\SynexensSDK\src\communicate\TCP\SYCommunicateManagerImplTCP.cpp:295:UDP Find local IP:172.24.128.1
+2026-06-24 14:50:28 INFO  19076  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:230:FindDevice Out result: 0
+2026-06-24 14:50:28 INFO  19076  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:197:FindDevice In
+2026-06-24 14:50:28 INFO  19076  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:230:FindDevice Out result: 0
+2026-06-24 14:50:28 INFO  19076  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:236:OpenDevice In, DeviceID:1 ,DeviceType:3
+2026-06-24 14:50:29 INFO  19076  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:312:OpenDevice Out result: 0
+2026-06-24 14:50:29 INFO  19076  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1225:GetDeviceSN In, DeviceID:1
+2026-06-24 14:50:30 INFO  19076  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1245:GetDeviceSN Out result: 0
+2026-06-24 14:50:30 INFO  19076  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1225:GetDeviceSN In, DeviceID:1
+2026-06-24 14:50:30 INFO  19076  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1245:GetDeviceSN Out result: 0
+2026-06-24 14:50:30 INFO  19076  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:546:SetFrameResolution In, DeviceID:1 ,frameType:2 ,resolution:1
+2026-06-24 14:50:30 INFO  19076  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:566:SetFrameResolution Out result: 0
+2026-06-24 14:50:30 INFO  19076  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:468:StartStreaming In, DeviceID:1 ,streamType:4
+2026-06-24 14:50:32 ERROR 22820  E:\code\SYSDK4\SynexensSDK\src\communicate\sonix\SYCommunicateSonix.cpp:57:SonixCam_MulSensorRegisterCustomRead error:1,SonixIndex:0,Ctrl:
+2026-06-24 14:50:37 INFO  19076  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:488:StartStreaming Out result: 0
+2026-06-24 14:50:37 INFO  19076  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1459:GetIntric In, DeviceID:1 ,resolution:1
+2026-06-24 14:50:37 INFO  19076  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1479:GetIntric Out result: 0
+2026-06-24 14:51:31 INFO  19076  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:494:StopStreaming In, DeviceID:1
+2026-06-24 14:51:31 INFO  19076  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:514:StopStreaming Out result: 0
+2026-06-24 14:51:31 INFO  19076  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:318:CloseDevice In, DeviceID:1
+2026-06-24 14:51:31 INFO  22820  E:\code\SYSDK4\SynexensSDK\src\device\CS20\SYDeviceCS20.cpp:928:PBDownloadThread out
+2026-06-24 14:51:31 INFO  19076  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:346:CloseDevice Out result: 0
+/***********************************
+App clean up.
+************************************/
+/***********************************
+App start up.
+************************************/
+2026-06-24 14:54:05 INFO  20156  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:197:FindDevice In
+2026-06-24 14:54:05 ERROR 20156  E:\code\SYSDK4\SynexensSDK\src\communicate\UVC\SYCommunicateManagerImplUVC.cpp:114:uvc_find_device error:-4
+2026-06-24 14:54:05 DEBUG 20156  E:\code\SYSDK4\SynexensSDK\src\communicate\TCP\SYCommunicateManagerImplTCP.cpp:295:UDP Find local IP:70.12.103.64
+2026-06-24 14:54:06 DEBUG 20156  E:\code\SYSDK4\SynexensSDK\src\communicate\TCP\SYCommunicateManagerImplTCP.cpp:295:UDP Find local IP:172.24.128.1
+2026-06-24 14:54:06 INFO  20156  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:230:FindDevice Out result: 0
+2026-06-24 14:54:06 INFO  20156  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:197:FindDevice In
+2026-06-24 14:54:06 INFO  20156  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:230:FindDevice Out result: 0
+2026-06-24 14:54:06 INFO  20156  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:236:OpenDevice In, DeviceID:1 ,DeviceType:3
+2026-06-24 14:54:08 INFO  20156  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:312:OpenDevice Out result: 0
+2026-06-24 14:54:08 INFO  20156  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1225:GetDeviceSN In, DeviceID:1
+2026-06-24 14:54:08 INFO  20156  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1245:GetDeviceSN Out result: 0
+2026-06-24 14:54:08 INFO  20156  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1225:GetDeviceSN In, DeviceID:1
+2026-06-24 14:54:08 INFO  20156  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1245:GetDeviceSN Out result: 0
+2026-06-24 14:54:08 INFO  20156  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:546:SetFrameResolution In, DeviceID:1 ,frameType:2 ,resolution:1
+2026-06-24 14:54:08 INFO  20156  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:566:SetFrameResolution Out result: 0
+2026-06-24 14:54:08 INFO  20156  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:468:StartStreaming In, DeviceID:1 ,streamType:4
+2026-06-24 14:54:11 ERROR 4196   E:\code\SYSDK4\SynexensSDK\src\communicate\sonix\SYCommunicateSonix.cpp:57:SonixCam_MulSensorRegisterCustomRead error:1,SonixIndex:0,Ctrl:
+2026-06-24 14:54:14 INFO  20156  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:488:StartStreaming Out result: 0
+2026-06-24 14:54:14 INFO  20156  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1459:GetIntric In, DeviceID:1 ,resolution:1
+2026-06-24 14:54:14 INFO  20156  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1479:GetIntric Out result: 0
+2026-06-24 14:55:19 INFO  20156  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:494:StopStreaming In, DeviceID:1
+2026-06-24 14:55:19 INFO  20156  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:514:StopStreaming Out result: 0
+2026-06-24 14:55:19 INFO  20156  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:318:CloseDevice In, DeviceID:1
+2026-06-24 14:55:19 INFO  4196   E:\code\SYSDK4\SynexensSDK\src\device\CS20\SYDeviceCS20.cpp:928:PBDownloadThread out
+2026-06-24 14:55:19 INFO  20156  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:346:CloseDevice Out result: 0
+/***********************************
+App clean up.
+************************************/
+/***********************************
+App start up.
+************************************/
+2026-06-24 15:01:39 INFO  22756  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:197:FindDevice In
+2026-06-24 15:01:39 ERROR 22756  E:\code\SYSDK4\SynexensSDK\src\communicate\UVC\SYCommunicateManagerImplUVC.cpp:114:uvc_find_device error:-4
+2026-06-24 15:01:39 DEBUG 22756  E:\code\SYSDK4\SynexensSDK\src\communicate\TCP\SYCommunicateManagerImplTCP.cpp:295:UDP Find local IP:70.12.103.64
+2026-06-24 15:01:40 DEBUG 22756  E:\code\SYSDK4\SynexensSDK\src\communicate\TCP\SYCommunicateManagerImplTCP.cpp:295:UDP Find local IP:172.24.128.1
+2026-06-24 15:01:40 INFO  22756  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:230:FindDevice Out result: 0
+2026-06-24 15:01:40 INFO  22756  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:197:FindDevice In
+2026-06-24 15:01:40 INFO  22756  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:230:FindDevice Out result: 0
+2026-06-24 15:01:40 INFO  22756  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:236:OpenDevice In, DeviceID:1 ,DeviceType:3
+2026-06-24 15:01:42 INFO  22756  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:312:OpenDevice Out result: 0
+2026-06-24 15:01:42 INFO  22756  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1225:GetDeviceSN In, DeviceID:1
+2026-06-24 15:01:43 INFO  22756  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1245:GetDeviceSN Out result: 0
+2026-06-24 15:01:43 INFO  22756  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1225:GetDeviceSN In, DeviceID:1
+2026-06-24 15:01:43 INFO  22756  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1245:GetDeviceSN Out result: 0
+2026-06-24 15:01:43 INFO  22756  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:546:SetFrameResolution In, DeviceID:1 ,frameType:2 ,resolution:1
+2026-06-24 15:01:43 INFO  22756  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:566:SetFrameResolution Out result: 0
+2026-06-24 15:01:43 INFO  22756  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:468:StartStreaming In, DeviceID:1 ,streamType:4
+2026-06-24 15:01:45 ERROR 22208  E:\code\SYSDK4\SynexensSDK\src\communicate\sonix\SYCommunicateSonix.cpp:57:SonixCam_MulSensorRegisterCustomRead error:1,SonixIndex:0,Ctrl:
+2026-06-24 15:01:48 INFO  22756  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:488:StartStreaming Out result: 0
+2026-06-24 15:01:48 INFO  22756  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1459:GetIntric In, DeviceID:1 ,resolution:1
+2026-06-24 15:01:48 INFO  22756  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1479:GetIntric Out result: 0
+2026-06-24 15:01:53 INFO  22756  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:494:StopStreaming In, DeviceID:1
+2026-06-24 15:01:53 INFO  22756  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:514:StopStreaming Out result: 0
+2026-06-24 15:01:53 INFO  22756  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:546:SetFrameResolution In, DeviceID:1 ,frameType:2 ,resolution:2
+2026-06-24 15:01:53 INFO  22756  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:566:SetFrameResolution Out result: 0
+2026-06-24 15:01:53 INFO  22756  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:468:StartStreaming In, DeviceID:1 ,streamType:4
+2026-06-24 15:01:58 ERROR 23196  E:\code\SYSDK4\SynexensSDK\src\device\CS20\SYDeviceCS20.cpp:862:new md5:d41d8cd98f00b204e9800998ecf8427eold md5:d59388eccaa5af000032000000000038
+2026-06-24 15:01:58 ERROR 23196  E:\code\SYSDK4\SynexensSDK\src\device\CS20\SYDeviceCS20.cpp:922:PBDownload MD5 failed
+2026-06-24 15:01:58 INFO  23196  E:\code\SYSDK4\SynexensSDK\src\device\CS20\SYDeviceCS20.cpp:928:PBDownloadThread out
+2026-06-24 15:01:59 INFO  22756  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:488:StartStreaming Out result: 0
+2026-06-24 15:01:59 INFO  22756  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1459:GetIntric In, DeviceID:1 ,resolution:2
+2026-06-24 15:01:59 INFO  22756  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1479:GetIntric Out result: 0
+2026-06-24 15:01:59 INFO  22756  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1459:GetIntric In, DeviceID:1 ,resolution:2
+2026-06-24 15:01:59 INFO  22756  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1479:GetIntric Out result: 0
+2026-06-24 15:01:59 INFO  22756  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:494:StopStreaming In, DeviceID:1
+2026-06-24 15:01:59 INFO  22756  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:514:StopStreaming Out result: 0
+2026-06-24 15:01:59 INFO  22756  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:318:CloseDevice In, DeviceID:1
+2026-06-24 15:01:59 INFO  22208  E:\code\SYSDK4\SynexensSDK\src\device\CS20\SYDeviceCS20.cpp:928:PBDownloadThread out
+2026-06-24 15:01:59 INFO  22756  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:346:CloseDevice Out result: 0
+/***********************************
+App clean up.
+************************************/
+/***********************************
+App start up.
+************************************/
+2026-06-24 15:02:03 INFO  24772  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:197:FindDevice In
+2026-06-24 15:02:03 ERROR 24772  E:\code\SYSDK4\SynexensSDK\src\communicate\UVC\SYCommunicateManagerImplUVC.cpp:114:uvc_find_device error:-4
+2026-06-24 15:02:03 DEBUG 24772  E:\code\SYSDK4\SynexensSDK\src\communicate\TCP\SYCommunicateManagerImplTCP.cpp:295:UDP Find local IP:70.12.103.64
+2026-06-24 15:02:04 DEBUG 24772  E:\code\SYSDK4\SynexensSDK\src\communicate\TCP\SYCommunicateManagerImplTCP.cpp:295:UDP Find local IP:172.24.128.1
+2026-06-24 15:02:04 INFO  24772  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:230:FindDevice Out result: 0
+2026-06-24 15:02:04 INFO  24772  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:197:FindDevice In
+2026-06-24 15:02:04 INFO  24772  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:230:FindDevice Out result: 0
+2026-06-24 15:02:04 INFO  24772  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:236:OpenDevice In, DeviceID:1 ,DeviceType:3
+2026-06-24 15:02:05 INFO  24772  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:312:OpenDevice Out result: 0
+2026-06-24 15:02:05 INFO  24772  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1225:GetDeviceSN In, DeviceID:1
+2026-06-24 15:02:06 INFO  24772  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1245:GetDeviceSN Out result: 0
+2026-06-24 15:02:06 INFO  24772  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1225:GetDeviceSN In, DeviceID:1
+2026-06-24 15:02:06 INFO  24772  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1245:GetDeviceSN Out result: 0
+2026-06-24 15:02:06 INFO  24772  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:546:SetFrameResolution In, DeviceID:1 ,frameType:2 ,resolution:1
+2026-06-24 15:02:06 INFO  24772  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:566:SetFrameResolution Out result: 0
+2026-06-24 15:02:06 INFO  24772  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:468:StartStreaming In, DeviceID:1 ,streamType:4
+2026-06-24 15:02:08 ERROR 20564  E:\code\SYSDK4\SynexensSDK\src\communicate\sonix\SYCommunicateSonix.cpp:57:SonixCam_MulSensorRegisterCustomRead error:1,SonixIndex:0,Ctrl:
+2026-06-24 15:02:14 INFO  24772  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:488:StartStreaming Out result: 0
+2026-06-24 15:02:14 INFO  24772  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1459:GetIntric In, DeviceID:1 ,resolution:1
+2026-06-24 15:02:14 INFO  24772  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1479:GetIntric Out result: 0
+2026-06-24 15:02:58 INFO  24772  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:494:StopStreaming In, DeviceID:1
+2026-06-24 15:02:58 INFO  24772  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:514:StopStreaming Out result: 0
+2026-06-24 15:02:58 INFO  24772  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:318:CloseDevice In, DeviceID:1
+2026-06-24 15:02:58 INFO  20564  E:\code\SYSDK4\SynexensSDK\src\device\CS20\SYDeviceCS20.cpp:928:PBDownloadThread out
+2026-06-24 15:02:58 INFO  24772  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:346:CloseDevice Out result: 0
+/***********************************
+App clean up.
+************************************/
+/***********************************
+App start up.
+************************************/
+2026-06-24 15:05:43 INFO  22932  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:197:FindDevice In
+2026-06-24 15:05:43 ERROR 22932  E:\code\SYSDK4\SynexensSDK\src\communicate\UVC\SYCommunicateManagerImplUVC.cpp:114:uvc_find_device error:-4
+2026-06-24 15:05:43 DEBUG 22932  E:\code\SYSDK4\SynexensSDK\src\communicate\TCP\SYCommunicateManagerImplTCP.cpp:295:UDP Find local IP:70.12.103.64
+2026-06-24 15:05:44 DEBUG 22932  E:\code\SYSDK4\SynexensSDK\src\communicate\TCP\SYCommunicateManagerImplTCP.cpp:295:UDP Find local IP:172.24.128.1
+2026-06-24 15:05:44 INFO  22932  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:230:FindDevice Out result: 0
+2026-06-24 15:05:44 INFO  22932  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:197:FindDevice In
+2026-06-24 15:05:44 INFO  22932  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:230:FindDevice Out result: 0
+2026-06-24 15:05:44 INFO  22932  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:236:OpenDevice In, DeviceID:1 ,DeviceType:3
+2026-06-24 15:05:46 INFO  22932  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:312:OpenDevice Out result: 0
+2026-06-24 15:05:46 INFO  22932  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1225:GetDeviceSN In, DeviceID:1
+2026-06-24 15:05:47 INFO  22932  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1245:GetDeviceSN Out result: 0
+2026-06-24 15:05:47 INFO  22932  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1225:GetDeviceSN In, DeviceID:1
+2026-06-24 15:05:47 INFO  22932  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1245:GetDeviceSN Out result: 0
+2026-06-24 15:05:47 INFO  22932  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:546:SetFrameResolution In, DeviceID:1 ,frameType:2 ,resolution:1
+2026-06-24 15:05:47 INFO  22932  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:566:SetFrameResolution Out result: 0
+2026-06-24 15:05:47 INFO  22932  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:468:StartStreaming In, DeviceID:1 ,streamType:4
+2026-06-24 15:05:49 ERROR 22660  E:\code\SYSDK4\SynexensSDK\src\communicate\sonix\SYCommunicateSonix.cpp:57:SonixCam_MulSensorRegisterCustomRead error:1,SonixIndex:0,Ctrl:
+2026-06-24 15:05:55 INFO  22932  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:488:StartStreaming Out result: 0
+2026-06-24 15:05:55 INFO  22932  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1459:GetIntric In, DeviceID:1 ,resolution:1
+2026-06-24 15:05:55 INFO  22932  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1479:GetIntric Out result: 0
+2026-06-24 15:06:27 INFO  22932  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:494:StopStreaming In, DeviceID:1
+2026-06-24 15:06:27 INFO  22932  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:514:StopStreaming Out result: 0
+2026-06-24 15:06:27 INFO  22932  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:318:CloseDevice In, DeviceID:1
+2026-06-24 15:06:27 INFO  22660  E:\code\SYSDK4\SynexensSDK\src\device\CS20\SYDeviceCS20.cpp:928:PBDownloadThread out
+2026-06-24 15:06:27 INFO  22932  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:346:CloseDevice Out result: 0
+/***********************************
+App clean up.
+************************************/
+/***********************************
+App start up.
+************************************/
+2026-06-24 15:16:10 INFO  24548  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:197:FindDevice In
+2026-06-24 15:16:10 ERROR 24548  E:\code\SYSDK4\SynexensSDK\src\communicate\UVC\SYCommunicateManagerImplUVC.cpp:114:uvc_find_device error:-4
+2026-06-24 15:16:11 DEBUG 24548  E:\code\SYSDK4\SynexensSDK\src\communicate\TCP\SYCommunicateManagerImplTCP.cpp:295:UDP Find local IP:70.12.103.64
+2026-06-24 15:16:11 DEBUG 24548  E:\code\SYSDK4\SynexensSDK\src\communicate\TCP\SYCommunicateManagerImplTCP.cpp:295:UDP Find local IP:172.24.128.1
+2026-06-24 15:16:12 INFO  24548  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:230:FindDevice Out result: 0
+2026-06-24 15:16:12 INFO  24548  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:197:FindDevice In
+2026-06-24 15:16:12 INFO  24548  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:230:FindDevice Out result: 0
+2026-06-24 15:16:12 INFO  24548  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:236:OpenDevice In, DeviceID:1 ,DeviceType:3
+2026-06-24 15:16:13 INFO  24548  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:312:OpenDevice Out result: 0
+2026-06-24 15:16:13 INFO  24548  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1225:GetDeviceSN In, DeviceID:1
+2026-06-24 15:16:14 INFO  24548  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1245:GetDeviceSN Out result: 0
+2026-06-24 15:16:14 INFO  24548  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1225:GetDeviceSN In, DeviceID:1
+2026-06-24 15:16:14 INFO  24548  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1245:GetDeviceSN Out result: 0
+2026-06-24 15:16:14 INFO  24548  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:546:SetFrameResolution In, DeviceID:1 ,frameType:2 ,resolution:1
+2026-06-24 15:16:14 INFO  24548  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:566:SetFrameResolution Out result: 0
+2026-06-24 15:16:14 INFO  24548  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:468:StartStreaming In, DeviceID:1 ,streamType:4
+2026-06-24 15:16:16 ERROR 23844  E:\code\SYSDK4\SynexensSDK\src\communicate\sonix\SYCommunicateSonix.cpp:57:SonixCam_MulSensorRegisterCustomRead error:1,SonixIndex:0,Ctrl:
+2026-06-24 15:16:21 INFO  24548  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:488:StartStreaming Out result: 0
+2026-06-24 15:16:21 INFO  24548  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1459:GetIntric In, DeviceID:1 ,resolution:1
+2026-06-24 15:16:21 INFO  24548  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1479:GetIntric Out result: 0
+2026-06-24 15:19:15 INFO  24548  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:494:StopStreaming In, DeviceID:1
+2026-06-24 15:19:15 INFO  24548  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:514:StopStreaming Out result: 0
+2026-06-24 15:19:15 INFO  24548  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:318:CloseDevice In, DeviceID:1
+2026-06-24 15:19:15 INFO  23844  E:\code\SYSDK4\SynexensSDK\src\device\CS20\SYDeviceCS20.cpp:928:PBDownloadThread out
+2026-06-24 15:19:15 INFO  24548  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:346:CloseDevice Out result: 0
+/***********************************
+App clean up.
+************************************/
+/***********************************
+App start up.
+************************************/
+2026-06-24 15:20:56 INFO  16512  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:197:FindDevice In
+2026-06-24 15:20:56 ERROR 16512  E:\code\SYSDK4\SynexensSDK\src\communicate\UVC\SYCommunicateManagerImplUVC.cpp:114:uvc_find_device error:-4
+2026-06-24 15:20:56 DEBUG 16512  E:\code\SYSDK4\SynexensSDK\src\communicate\TCP\SYCommunicateManagerImplTCP.cpp:295:UDP Find local IP:70.12.103.64
+2026-06-24 15:20:56 DEBUG 16512  E:\code\SYSDK4\SynexensSDK\src\communicate\TCP\SYCommunicateManagerImplTCP.cpp:295:UDP Find local IP:172.24.128.1
+2026-06-24 15:20:57 INFO  16512  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:230:FindDevice Out result: 0
+2026-06-24 15:20:57 INFO  16512  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:197:FindDevice In
+2026-06-24 15:20:57 INFO  16512  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:230:FindDevice Out result: 0
+2026-06-24 15:20:57 INFO  16512  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:236:OpenDevice In, DeviceID:1 ,DeviceType:3
+2026-06-24 15:20:58 INFO  16512  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:312:OpenDevice Out result: 0
+2026-06-24 15:20:58 INFO  16512  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1225:GetDeviceSN In, DeviceID:1
+2026-06-24 15:20:59 INFO  16512  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1245:GetDeviceSN Out result: 0
+2026-06-24 15:20:59 INFO  16512  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1225:GetDeviceSN In, DeviceID:1
+2026-06-24 15:20:59 INFO  16512  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1245:GetDeviceSN Out result: 0
+2026-06-24 15:20:59 INFO  16512  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:546:SetFrameResolution In, DeviceID:1 ,frameType:2 ,resolution:1
+2026-06-24 15:20:59 INFO  16512  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:566:SetFrameResolution Out result: 0
+2026-06-24 15:20:59 INFO  16512  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:468:StartStreaming In, DeviceID:1 ,streamType:4
+2026-06-24 15:21:01 ERROR 17424  E:\code\SYSDK4\SynexensSDK\src\communicate\sonix\SYCommunicateSonix.cpp:57:SonixCam_MulSensorRegisterCustomRead error:1,SonixIndex:0,Ctrl:
+2026-06-24 15:21:07 INFO  16512  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:488:StartStreaming Out result: 0
+2026-06-24 15:21:07 INFO  16512  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1459:GetIntric In, DeviceID:1 ,resolution:1
+2026-06-24 15:21:07 INFO  16512  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1479:GetIntric Out result: 0
+2026-06-24 15:23:03 INFO  16512  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:494:StopStreaming In, DeviceID:1
+2026-06-24 15:23:03 INFO  16512  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:514:StopStreaming Out result: 0
+2026-06-24 15:23:03 INFO  16512  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:318:CloseDevice In, DeviceID:1
+2026-06-24 15:23:03 INFO  17424  E:\code\SYSDK4\SynexensSDK\src\device\CS20\SYDeviceCS20.cpp:928:PBDownloadThread out
+2026-06-24 15:23:03 INFO  16512  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:346:CloseDevice Out result: 0
+/***********************************
+App clean up.
+************************************/
+/***********************************
+App start up.
+************************************/
+2026-06-24 15:38:22 INFO  5176   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:197:FindDevice In
+2026-06-24 15:38:22 ERROR 5176   E:\code\SYSDK4\SynexensSDK\src\communicate\UVC\SYCommunicateManagerImplUVC.cpp:114:uvc_find_device error:-4
+2026-06-24 15:38:22 DEBUG 5176   E:\code\SYSDK4\SynexensSDK\src\communicate\TCP\SYCommunicateManagerImplTCP.cpp:295:UDP Find local IP:70.12.103.64
+2026-06-24 15:38:23 DEBUG 5176   E:\code\SYSDK4\SynexensSDK\src\communicate\TCP\SYCommunicateManagerImplTCP.cpp:295:UDP Find local IP:172.24.128.1
+2026-06-24 15:38:23 INFO  5176   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:230:FindDevice Out result: 0
+2026-06-24 15:38:23 INFO  5176   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:197:FindDevice In
+2026-06-24 15:38:23 INFO  5176   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:230:FindDevice Out result: 0
+2026-06-24 15:38:23 INFO  5176   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:236:OpenDevice In, DeviceID:1 ,DeviceType:3
+2026-06-24 15:38:25 INFO  5176   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:312:OpenDevice Out result: 0
+2026-06-24 15:38:25 INFO  5176   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1225:GetDeviceSN In, DeviceID:1
+2026-06-24 15:38:26 INFO  5176   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1245:GetDeviceSN Out result: 0
+2026-06-24 15:38:26 INFO  5176   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1225:GetDeviceSN In, DeviceID:1
+2026-06-24 15:38:26 INFO  5176   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1245:GetDeviceSN Out result: 0
+2026-06-24 15:38:26 INFO  5176   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:546:SetFrameResolution In, DeviceID:1 ,frameType:2 ,resolution:1
+2026-06-24 15:38:26 INFO  5176   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:566:SetFrameResolution Out result: 0
+2026-06-24 15:38:26 INFO  5176   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:468:StartStreaming In, DeviceID:1 ,streamType:4
+2026-06-24 15:38:28 ERROR 14640  E:\code\SYSDK4\SynexensSDK\src\communicate\sonix\SYCommunicateSonix.cpp:57:SonixCam_MulSensorRegisterCustomRead error:1,SonixIndex:0,Ctrl:
+2026-06-24 15:38:33 INFO  5176   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:488:StartStreaming Out result: 0
+2026-06-24 15:38:33 INFO  5176   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1459:GetIntric In, DeviceID:1 ,resolution:1
+2026-06-24 15:38:33 INFO  5176   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1479:GetIntric Out result: 0
+2026-06-24 15:39:48 INFO  5176   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:494:StopStreaming In, DeviceID:1
+2026-06-24 15:39:48 INFO  5176   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:514:StopStreaming Out result: 0
+2026-06-24 15:39:48 INFO  5176   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:318:CloseDevice In, DeviceID:1
+2026-06-24 15:39:48 INFO  14640  E:\code\SYSDK4\SynexensSDK\src\device\CS20\SYDeviceCS20.cpp:928:PBDownloadThread out
+2026-06-24 15:39:48 INFO  5176   E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:346:CloseDevice Out result: 0
+/***********************************
+App clean up.
+************************************/
+/***********************************
+App start up.
+************************************/
+2026-06-24 15:42:31 INFO  22840  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:197:FindDevice In
+2026-06-24 15:42:31 ERROR 22840  E:\code\SYSDK4\SynexensSDK\src\communicate\UVC\SYCommunicateManagerImplUVC.cpp:114:uvc_find_device error:-4
+2026-06-24 15:42:31 DEBUG 22840  E:\code\SYSDK4\SynexensSDK\src\communicate\TCP\SYCommunicateManagerImplTCP.cpp:295:UDP Find local IP:70.12.103.64
+2026-06-24 15:42:32 DEBUG 22840  E:\code\SYSDK4\SynexensSDK\src\communicate\TCP\SYCommunicateManagerImplTCP.cpp:295:UDP Find local IP:172.24.128.1
+2026-06-24 15:42:33 INFO  22840  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:230:FindDevice Out result: 0
+2026-06-24 15:42:33 INFO  22840  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:197:FindDevice In
+2026-06-24 15:42:33 INFO  22840  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:230:FindDevice Out result: 0
+2026-06-24 15:42:33 INFO  22840  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:236:OpenDevice In, DeviceID:1 ,DeviceType:3
+2026-06-24 15:42:34 INFO  22840  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:312:OpenDevice Out result: 0
+2026-06-24 15:42:34 INFO  22840  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1225:GetDeviceSN In, DeviceID:1
+2026-06-24 15:42:35 INFO  22840  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1245:GetDeviceSN Out result: 0
+2026-06-24 15:42:35 INFO  22840  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1225:GetDeviceSN In, DeviceID:1
+2026-06-24 15:42:35 INFO  22840  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1245:GetDeviceSN Out result: 0
+2026-06-24 15:42:35 INFO  22840  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:546:SetFrameResolution In, DeviceID:1 ,frameType:2 ,resolution:1
+2026-06-24 15:42:35 INFO  22840  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:566:SetFrameResolution Out result: 0
+2026-06-24 15:42:35 INFO  22840  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:468:StartStreaming In, DeviceID:1 ,streamType:4
+2026-06-24 15:42:37 ERROR 16016  E:\code\SYSDK4\SynexensSDK\src\communicate\sonix\SYCommunicateSonix.cpp:57:SonixCam_MulSensorRegisterCustomRead error:1,SonixIndex:0,Ctrl:
+2026-06-24 15:42:43 INFO  22840  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:488:StartStreaming Out result: 0
+2026-06-24 15:42:43 INFO  22840  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1459:GetIntric In, DeviceID:1 ,resolution:1
+2026-06-24 15:42:43 INFO  22840  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1479:GetIntric Out result: 0
+2026-06-24 15:43:45 INFO  22840  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:494:StopStreaming In, DeviceID:1
+2026-06-24 15:43:45 INFO  22840  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:514:StopStreaming Out result: 0
+2026-06-24 15:43:45 INFO  22840  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:318:CloseDevice In, DeviceID:1
+2026-06-24 15:43:46 INFO  16016  E:\code\SYSDK4\SynexensSDK\src\device\CS20\SYDeviceCS20.cpp:928:PBDownloadThread out
+2026-06-24 15:43:46 INFO  22840  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:346:CloseDevice Out result: 0
+/***********************************
+App clean up.
+************************************/
+/***********************************
+App start up.
+************************************/
+2026-06-24 15:47:05 INFO  13788  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:197:FindDevice In
+2026-06-24 15:47:05 ERROR 13788  E:\code\SYSDK4\SynexensSDK\src\communicate\UVC\SYCommunicateManagerImplUVC.cpp:114:uvc_find_device error:-4
+2026-06-24 15:47:05 DEBUG 13788  E:\code\SYSDK4\SynexensSDK\src\communicate\TCP\SYCommunicateManagerImplTCP.cpp:295:UDP Find local IP:70.12.103.64
+2026-06-24 15:47:06 DEBUG 13788  E:\code\SYSDK4\SynexensSDK\src\communicate\TCP\SYCommunicateManagerImplTCP.cpp:295:UDP Find local IP:172.24.128.1
+2026-06-24 15:47:06 INFO  13788  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:230:FindDevice Out result: 0
+2026-06-24 15:47:06 INFO  13788  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:197:FindDevice In
+2026-06-24 15:47:06 INFO  13788  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:230:FindDevice Out result: 0
+2026-06-24 15:47:06 INFO  13788  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:236:OpenDevice In, DeviceID:1 ,DeviceType:3
+2026-06-24 15:47:08 INFO  13788  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:312:OpenDevice Out result: 0
+2026-06-24 15:47:08 INFO  13788  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1225:GetDeviceSN In, DeviceID:1
+2026-06-24 15:47:08 INFO  13788  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1245:GetDeviceSN Out result: 0
+2026-06-24 15:47:08 INFO  13788  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1225:GetDeviceSN In, DeviceID:1
+2026-06-24 15:47:08 INFO  13788  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1245:GetDeviceSN Out result: 0
+2026-06-24 15:47:08 INFO  13788  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:546:SetFrameResolution In, DeviceID:1 ,frameType:2 ,resolution:1
+2026-06-24 15:47:08 INFO  13788  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:566:SetFrameResolution Out result: 0
+2026-06-24 15:47:08 INFO  13788  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:468:StartStreaming In, DeviceID:1 ,streamType:4
+2026-06-24 15:47:11 ERROR 21280  E:\code\SYSDK4\SynexensSDK\src\communicate\sonix\SYCommunicateSonix.cpp:57:SonixCam_MulSensorRegisterCustomRead error:1,SonixIndex:0,Ctrl:
+2026-06-24 15:47:16 INFO  13788  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:488:StartStreaming Out result: 0
+2026-06-24 15:47:16 INFO  13788  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1459:GetIntric In, DeviceID:1 ,resolution:1
+2026-06-24 15:47:16 INFO  13788  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:1479:GetIntric Out result: 0
+2026-06-24 15:48:57 INFO  13788  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:494:StopStreaming In, DeviceID:1
+2026-06-24 15:48:57 INFO  13788  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:514:StopStreaming Out result: 0
+2026-06-24 15:48:57 INFO  13788  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:318:CloseDevice In, DeviceID:1
+2026-06-24 15:48:57 INFO  21280  E:\code\SYSDK4\SynexensSDK\src\device\CS20\SYDeviceCS20.cpp:928:PBDownloadThread out
+2026-06-24 15:48:57 INFO  13788  E:\code\SYSDK4\SynexensSDK\src\device\SYDeviceManager.cpp:346:CloseDevice Out result: 0
+/***********************************
+App clean up.
+************************************/

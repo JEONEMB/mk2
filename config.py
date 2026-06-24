@@ -36,7 +36,11 @@ class SDKConfig:
 class DepthConfig:
     min_valid_mm: float = 100.0
     max_valid_mm: float = 4_000.0
-    ir_saturation_threshold: int = 250
+    # Raw CS20 IR is uint16. Select only the brightest per-frame tail instead
+    # of applying an 8-bit threshold to the entire image.
+    ir_saturation_percentile: float = 99.8
+    ir_min_dynamic_range: float = 128.0
+    ir_max_mask_ratio: float = 0.05
     ir_saturation_dilate_px: int = 3
     spatial_median_kernel: int = 3
     temporal_window: int = 15
@@ -48,22 +52,55 @@ class CalibrationConfig:
     roi_ratio: float = 0.60
     ransac_iterations: int = 300
     ransac_threshold_mm: float = 4.0
+    # The precise far-point seed uses ``ransac_threshold_mm``.  Full-frame
+    # support is allowed a little more range noise, then the ROI residual gate
+    # below decides whether the surface is truly usable for measurement.
+    full_frame_plane_threshold_mm: float = 10.0
     min_inliers: int = 1_000
     max_sample_points: int = 30_000
-    dynamic_floor_update_threshold_mm: float = 8.0
+    # Initial platform candidates are the farthest 40% of metric point-cloud
+    # distances. Nearer boxes and foreground obstacles are rejected first,
+    # while enough platform points remain after vertical walls are excluded.
+    platform_farthest_percentile: float = 60.0
+    # Fill small obstacle/no-depth holes before deriving one rectangular ROI.
+    platform_roi_close_kernel_px: int = 41
+    platform_max_tilt_deg: float = 25.0
+    min_platform_component_pixels: int = 1_000
+    min_platform_roi_area_ratio: float = 0.10
+    min_calibration_valid_depth_ratio: float = 0.15
+    min_measurement_roi_side_px: int = 64
+    max_calibration_residual_std_mm: float = 3.0
+    max_calibration_residual_abs_p95_mm: float = 8.0
+    # Do not measure directly on the automatically found platform boundary.
+    # At 320x240 this removes a 16 px guard band from each ROI edge.
+    measurement_roi_inset_px: int = 16
+    # At measurement time refit a live plane from the low-height part of the
+    # ROI.  The guards reject a genuinely different scene rather than small
+    # camera movement or range drift.
+    dynamic_baseline_max_shift_mm: float = 60.0
+    dynamic_baseline_min_points: int = 500
+    dynamic_plane_iterations: int = 200
+    dynamic_plane_threshold_mm: float = 6.0
+    dynamic_plane_max_tilt_deg: float = 8.0
+    dynamic_floor_low_percentile: float = 5.0
+    dynamic_floor_high_percentile: float = 60.0
 
 
 @dataclass(frozen=True)
 class MeasurementConfig:
-    min_box_height_mm: float = 15.0
-    min_box_points: int = 250
-    box_close_kernel: int = 5
+    # A 70 mm box should be well above this while low platform waviness and
+    # residual depth noise stay out of the candidate mask.
+    min_box_height_mm: float = 40.0
+    # A 130 x 80 mm box at 700 mm in 320x240 commonly occupies a few hundred
+    # pixels; 80 retains it while the rectangular platform ROI rejects clutter.
+    min_box_points: int = 80
+    box_close_kernel: int = 3
     top_percentile: float = 80.0
     top_band_mm: float = 5.0
     top_plane_threshold_mm: float = 4.0
     max_top_plane_residual_std_mm: float = 4.0
     min_top_inlier_ratio: float = 0.65
-    min_top_points: int = 80
+    min_top_points: int = 300
     rectangle_trim_percentile_low: float = 3.0
     rectangle_trim_percentile_high: float = 97.0
 
@@ -73,4 +110,5 @@ class PathConfig:
     calibration_dir: Path = Path("data") / "calibration"
     sample_dir: Path = Path("data") / "samples"
     platform_plane_path: Path = calibration_dir / "platform_plane.json"
+    platform_mask_path: Path = calibration_dir / "platform_plane_mask.npy"
     depth_scale_path: Path = calibration_dir / "depth_scale.json"

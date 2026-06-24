@@ -75,6 +75,11 @@ class _SYIntrinsics(ct.Structure):
     ]
 
 
+class _SYPointCloudData(ct.Structure):
+    _pack_ = 1
+    _fields_ = [("x", ct.c_float), ("y", ct.c_float), ("z", ct.c_float)]
+
+
 class CameraBackend(Protocol):
     def open(self) -> CameraInfo: ...
     def start(self) -> None: ...
@@ -148,10 +153,25 @@ class NativeSynexensBackend:
         )
 
     def set_resolution(self, resolution_name: str) -> None:
+        """Change stream resolution and refresh its matching intrinsics."""
+
         device_id = self._device_id()
         resolution = self._resolution_value(resolution_name)
+        was_streaming = self._streaming
+        if was_streaming:
+            self._check(self._sdk.StopStreaming(device_id), "StopStreaming(resolution change)")
+            self._streaming = False
         self._check(self._sdk.SetFrameResolution(device_id, _FRAME_DEPTH, resolution), "SetFrameResolution(depth)")
+        if was_streaming:
+            stream_type = _STREAM_DEPTH_IR if self._has_ir else 2  # DEPTH
+            self._check(self._sdk.StartStreaming(device_id, stream_type), "StartStreaming(resolution change)")
+            self._streaming = True
         self._resolution_enum = resolution
+        native = _SYIntrinsics()
+        self._check(self._sdk.GetIntric(device_id, resolution, False, ct.byref(native)), "GetIntric(depth)")
+        self._intrinsics = CameraIntrinsics(
+            float(native.fx), float(native.fy), float(native.cx), float(native.cy), int(native.width), int(native.height)
+        )
 
     def read_frame(self, timeout_ms: int) -> DepthFrame | None:
         del timeout_ms  # GetLastFrameData is non-blocking in the vendor API.
@@ -165,13 +185,25 @@ class NativeSynexensBackend:
         frame = ct.cast(frame_ptr, ct.POINTER(_SYFrameData)).contents
         if frame.frame_count <= 0 or not frame.frame_info or not frame.data:
             return None
-        depth, ir = self._copy_depth_and_ir(frame)
-        if depth is None:
+        raw_depth, ir = self._copy_depth_and_ir(frame)
+        if raw_depth is None:
             return None
+        pointcloud = self._get_depth_pointcloud(raw_depth)
+        # The native Z coordinates are metric SDK output. They replace raw
+        # uint16 depth, which is not guaranteed to be millimetres.
+        depth = pointcloud[..., 2].astype(np.float32)
+        depth[~np.isfinite(depth) | (depth <= 0)] = np.nan
         if depth.shape != (self._intrinsics.height, self._intrinsics.width):
             # Resolution can change through device settings; fetch current calibration.
             self._intrinsics = self._get_intrinsics_for_frame(depth.shape[1], depth.shape[0])
-        return DepthFrame(depth, self._intrinsics, ir, time.time(), f"{depth.shape[1]}x{depth.shape[0]}")
+        return DepthFrame(
+            depth,
+            self._intrinsics,
+            ir,
+            pointcloud.astype(np.float32),
+            time.time(),
+            f"{depth.shape[1]}x{depth.shape[0]}",
+        )
 
     def stop(self) -> None:
         if self._sdk is not None and self._device is not None and self._streaming:
@@ -210,11 +242,28 @@ class NativeSynexensBackend:
                 raw = ct.string_at(int(frame.data) + offset, pixel_count * 2)
                 image = np.frombuffer(raw, dtype="<u2").copy().reshape(info.height, info.width)
                 if info.frame_type == _FRAME_DEPTH:
-                    depth = image.astype(np.float32)
+                    depth = image
                 else:
                     ir = image
             offset += byte_count
         return depth, ir
+
+    def _get_depth_pointcloud(self, raw_depth: np.ndarray) -> np.ndarray:
+        depth = np.ascontiguousarray(raw_depth, dtype=np.uint16)
+        height, width = depth.shape
+        points = np.empty((height, width, 3), dtype=np.float32)
+        self._check(
+            self._sdk.GetDepthPointCloud(
+                self._device_id(),
+                width,
+                height,
+                ct.c_void_p(depth.ctypes.data),
+                ct.c_void_p(points.ctypes.data),
+                False,
+            ),
+            "GetDepthPointCloud",
+        )
+        return points
 
     def _get_intrinsics_for_frame(self, width: int, height: int) -> CameraIntrinsics:
         resolution = self._resolution_enum or self._resolution_value(f"{width}x{height}")
@@ -241,6 +290,14 @@ class NativeSynexensBackend:
         self._sdk.SetFrameResolution.argtypes, self._sdk.SetFrameResolution.restype = [ct.c_uint32, ct.c_int, ct.c_int], ct.c_int
         self._sdk.GetLastFrameData.argtypes, self._sdk.GetLastFrameData.restype = [ct.c_uint32, ct.POINTER(ct.c_void_p)], ct.c_int
         self._sdk.GetIntric.argtypes, self._sdk.GetIntric.restype = [ct.c_uint32, ct.c_int, ct.c_bool, ct.POINTER(_SYIntrinsics)], ct.c_int
+        self._sdk.GetDepthPointCloud.argtypes, self._sdk.GetDepthPointCloud.restype = [
+            ct.c_uint32,
+            ct.c_int,
+            ct.c_int,
+            ct.c_void_p,
+            ct.c_void_p,
+            ct.c_bool,
+        ], ct.c_int
         self._sdk.GetDeviceSN.argtypes, self._sdk.GetDeviceSN.restype = [ct.c_uint32, ct.POINTER(ct.c_int), ct.c_void_p], ct.c_int
         self._sdk.GetSDKVersion.argtypes, self._sdk.GetSDKVersion.restype = [ct.POINTER(ct.c_int), ct.c_void_p], ct.c_int
 
@@ -315,19 +372,38 @@ class SyntheticCameraBackend:
         self._running = True
 
     def set_resolution(self, resolution_name: str) -> None:
-        if resolution_name != f"{self.width}x{self.height}":
-            raise CameraError(f"synthetic backend only provides {self.width}x{self.height}")
+        try:
+            width, height = (int(value) for value in resolution_name.split("x", maxsplit=1))
+        except ValueError as exc:
+            raise CameraError(f"unsupported synthetic resolution: {resolution_name}") from exc
+        if (width, height) not in ((320, 240), (640, 480)):
+            raise CameraError(f"unsupported synthetic resolution: {resolution_name}")
+        self.width, self.height = width, height
+        # Keep the demo camera's field of view constant as resolution changes.
+        focal = 580.0 * width / 640.0
+        self.intrinsics = CameraIntrinsics(focal, focal, width / 2, height / 2, width, height)
 
     def read_frame(self, timeout_ms: int) -> DepthFrame:
         if not self._running:
             raise CameraError("synthetic stream has not been started")
         yy, xx = np.mgrid[: self.height, : self.width]
         depth = 720.0 + 0.012 * (xx - self.width / 2) - 0.006 * (yy - self.height / 2)
-        box = (xx >= 220) & (xx < 420) & (yy >= 165) & (yy < 315)
+        box = (
+            (xx >= self.width * 0.344)
+            & (xx < self.width * 0.656)
+            & (yy >= self.height * 0.344)
+            & (yy < self.height * 0.656)
+        )
         depth[box] -= 120.0
         depth += self._rng.normal(0.0, 1.0, depth.shape)
         ir = self._rng.integers(25, 140, size=depth.shape, dtype=np.uint8)
-        return DepthFrame(depth.astype(np.float32), self.intrinsics, ir, time.time(), "640x480")
+        return DepthFrame(
+            depth_mm=depth.astype(np.float32),
+            intrinsics=self.intrinsics,
+            ir_image=ir,
+            timestamp=time.time(),
+            resolution_name=f"{self.width}x{self.height}",
+        )
 
     def stop(self) -> None:
         self._running = False

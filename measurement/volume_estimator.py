@@ -7,7 +7,7 @@ from dataclasses import dataclass, field
 import numpy as np
 
 from calibration.platform_calibrator import PlatformModel
-from measurement.box_detector import BoxDetection, BoxDetector
+from measurement.box_detector import BoxCandidate, BoxDetection, BoxDetector
 from measurement.rectangle_fitter import RectangleFitter, RotatedRectangle, compute_width_length
 from measurement.top_surface import TopSurfaceExtractor, TopSurfaceResult
 
@@ -27,6 +27,8 @@ class VolumeResult:
     box_point_count: int = 0
     top_point_count: int = 0
     top_plane_residual_std_mm: float | None = None
+    candidate_mask: np.ndarray | None = field(default=None, repr=False, compare=False)
+    candidates: tuple[BoxCandidate, ...] = ()
 
 
 class BoxVolumeEstimator:
@@ -50,7 +52,13 @@ class BoxVolumeEstimator:
     def measure(self, points_grid: np.ndarray, platform_model: PlatformModel) -> VolumeResult:
         detection = self.detect_box(points_grid, platform_model)
         if not detection.found:
-            return VolumeResult(False, warnings=["box candidate was not found"], box_point_count=detection.point_count)
+            return VolumeResult(
+                False,
+                warnings=[detection.warning or "box candidate was not found"],
+                box_point_count=detection.point_count,
+                candidate_mask=detection.candidate_mask,
+                candidates=detection.candidates,
+            )
         top = self.top_surface_extractor.extract(detection.points, detection.heights_mm, platform_model)
         if not top.success:
             return VolumeResult(
@@ -60,6 +68,8 @@ class BoxVolumeEstimator:
                 box_point_count=detection.point_count,
                 top_point_count=len(top.points),
                 top_plane_residual_std_mm=top.residual_std_mm,
+                candidate_mask=detection.candidate_mask,
+                candidates=detection.candidates,
             )
         try:
             rectangle = self.rectangle_fitter.fit(top.points, platform_model)
@@ -72,6 +82,8 @@ class BoxVolumeEstimator:
                 box_point_count=detection.point_count,
                 top_point_count=len(top.points),
                 top_plane_residual_std_mm=top.residual_std_mm,
+                candidate_mask=detection.candidate_mask,
+                candidates=detection.candidates,
             )
 
     def _result(self, detection: BoxDetection, top: TopSurfaceResult, rectangle: RotatedRectangle) -> VolumeResult:
@@ -96,4 +108,6 @@ class BoxVolumeEstimator:
             box_point_count=detection.point_count,
             top_point_count=len(top.points),
             top_plane_residual_std_mm=top.residual_std_mm,
+            candidate_mask=detection.candidate_mask,
+            candidates=detection.candidates,
         )
