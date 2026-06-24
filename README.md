@@ -72,12 +72,13 @@ python main.py
 - `i`: IR 창 열기/닫기
 - `r`: 320×240 ↔ 640×480 해상도 전환. 전환 뒤에는 `c`로 다시 보정
 - `h`: 보정 후 플랫폼 대비 상대높이 진단 화면 열기/닫기. 0 mm는 차가운 색, +70 mm는 따뜻한 색
-- `c`: 빈 플랫폼 보정. 작은 입력 창에 줄자로 잰 렌즈 중심-플랫폼 높이(`700` 또는 `70cm`)를 입력하면 사각형 ROI와 실제 평면 mask를 자동으로 저장
+- `p`: 빈 플랫폼 60-frame 평면 proposal 미리보기. 초록색은 반복 검증된 평면 inlier이고, 노란색 ROI는 모든 품질 조건을 통과한 경우에만 표시
+- `c`: `p`와 같은 60-frame proposal을 확인한 뒤 `Enter`/`Space`로 확정하면 줄자로 잰 렌즈 중심-플랫폼 높이(`700` 또는 `70cm`)를 입력해 보정을 저장. `c`/`Esc`는 취소
 - `b`: 모든 상자 후보의 높이·point 수를 출력하고 후보 mask를 화면에 표시
 - `d`: 상자 체적 측정
 - `q`: 프로그램 종료
 
-프로그램을 시작하면 ROI는 보이지 않습니다. 빈 플랫폼 상태에서 먼저 `c`를 누르고 정확한 높이(`700` 또는 `70cm`)를 입력합니다. 화면의 `valid` 비율과 `IR masked` 비율을 확인하고, 노란색 사각형 Platform ROI가 충분한 크기로 표시된 것을 확인한 뒤 상자를 올려 `d`를 누르세요. ROI에는 16 px 안전 여백이 적용됩니다. `d`는 현재 프레임의 플랫폼 기준면을 다시 맞춘 뒤, 그 기준면보다 40 mm 이상 위인 ROI 내부 점만 상자 후보로 사용합니다.
+프로그램을 시작하면 ROI는 보이지 않습니다. 빈 플랫폼에서 먼저 `p`를 눌러 초록색 consensus plane mask와 노란색 제안 ROI를 확인합니다. 노란색 ROI가 표시되지 않으면 저장 가능한 플랫폼 영역이 없다는 뜻이므로 보정을 진행하지 않습니다. 올바른 ROI가 표시되면 `c`를 누르고 `Enter`/`Space`로 같은 proposal을 확정한 뒤 정확한 높이(`700` 또는 `70cm`)를 입력합니다. ROI에는 16 px 안전 여백이 적용됩니다. `d`는 현재 프레임의 플랫폼 기준면을 다시 맞춘 뒤, 그 기준면보다 40 mm 이상 위인 ROI 내부 점만 상자 후보로 사용합니다.
 
 `c`가 끝나면 콘솔은 `SDK plane`, `measured`, `scale`, `corrected` 높이를 모두 출력하고 화면의 Platform ROI에도 보정된 높이를 표시합니다. `SDK plane`은 카메라 원점에서 평면까지의 SDK 거리이고, `corrected`는 줄자로 잰 렌즈 중심 높이를 기준으로 보정된 값입니다. 플랫폼 mask는 측정 내부에서만 사용하며, 화면에는 노란색 사각형 ROI만 표시합니다.
 
@@ -113,7 +114,10 @@ python main.py --demo
 - 플랫폼의 largest plane component mask를 `platform_plane_mask.npy`에 함께 저장한다. 상자 후보는 이 mask 안에서만 찾으며 mask 경계에 닿으면 측정을 실패 처리해 배경·벽·ROI 밖 성분의 오검출을 막는다.
 - 정확도 확인 순서: 빈 플랫폼 → `c` → 정확한 실측 높이 입력 → 최종 camera height와 mask 확인 → 상자 배치 → `d`.
 - `70`을 입력하면 이전에는 70 mm로 처리되어 scale `0.12736`, 최종 높이 약 68.98 mm가 저장됐다. 이제 `70`은 70 cm(700 mm)로 자동 해석하며, `70cm`처럼 단위를 명시할 수도 있다.
-- `c` 보정은 먼저 metric point cloud에서 가장 먼 40% point를 초기 후보로 사용해 가까운 상자·장애물을 제거한다. 수직 벽은 수평 평면 조건으로 제외한 뒤 전체 평면을 확장한다.
-- 플랫폼 평면의 작은 장애물·invalid-depth 구멍은 41×41 closing으로 연결하고, 가장 큰 플랫폼 영역의 외곽 사각형을 ROI 및 측정 mask로 사용한다.
+- SDK의 `GetDepthPointCloud`와 `GetIntric`를 모두 `bUndistort=True` 좌표계로 전환했다. raw point cloud는 preview에서 왜곡 보정 전후 평면 잔차를 비교하는 진단용으로만 유지한다.
+- `p`/`c`는 같은 빈 플랫폼 60-frame 묶음에서 수평 평면 후보를 만들고, 프레임 간 반복 inlier만 consensus mask로 사용한다. 사용자가 보는 proposal과 저장되는 ROI는 동일한 frame 묶음에서 나온다.
+- 후보 component는 raw 8-connected inlier mask로만 구분한다. 기존 41×41 closing으로 떨어진 섬을 합치던 처리를 제거했고, 단일 component 내부의 5 px 이하 hole만 ROI 탐색 시 제한적으로 허용한다.
+- 노란색 ROI는 단일 component 안에서 90% 이상 plane coverage, 최소 크기·안전 여백, 최종 평면 잔차를 모두 통과할 때만 표시·저장한다. 조건을 만족하지 못하면 ROI를 그리지 않고 component/coverage/잔차 단계의 실패 사유를 출력한다.
+- `tests/`에 undistorted SDK 좌표 요청, 전경을 피하는 ROI, 가까운 평면 섬 미병합을 검증하는 단위 테스트를 추가했다.
 - raw 16-bit IR에 250 고정값을 적용하면 밝은 플랫폼 depth 대부분이 제거될 수 있어, frame별 상위 0.2%만 glare로 제거하는 적응형 IR saturation mask로 변경했다. dynamic range가 작거나 mask가 화면의 5%를 넘으면 IR mask를 적용하지 않는다.
 - 오버헤드 보정 시 valid depth 비율, platform normal 정렬, ROI 면적을 검증한다. 유효 depth가 화면의 15% 미만이거나 ROI가 화면의 10% 미만이면 calibration 파일을 저장하지 않고 카메라·IR·설치 방향을 점검하도록 안내한다.
